@@ -1,0 +1,9 @@
+{
+  "explore":  {"inject": null,                     "mode": null,       "kind": "answer"},
+  "tests":    {"inject": "inject/tests.patch",     "mode": "commit",   "kind": "code"},
+  "lint":     {"inject": "inject/lint.patch",      "mode": "commit",   "kind": "code"},
+  "commit":   {"inject": "reference/T1.patch",     "mode": "stage",    "kind": "answer"},
+  "refactor": {"inject": null,                     "mode": null,       "kind": "code"},
+  "review":   {"inject": "inject/review.patch",    "mode": "worktree", "kind": "answer"},
+  "summary":  {"inject": null,                     "mode": null,       "kind": "answer"}
+}

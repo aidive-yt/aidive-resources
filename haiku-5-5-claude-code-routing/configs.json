@@ -1,0 +1,6 @@
+{
+  "haiku-med": {"args": ["--model", "claude-haiku-5-5"], "model": "claude-haiku-5-5", "tier": 1, "note": "default effort"},
+  "haiku-low": {"args": ["--model", "claude-haiku-5-5", "--effort", "low"], "model": "claude-haiku-5-5", "tier": 1},
+  "sonnet":    {"args": ["--model", "claude-sonnet-5-5"], "model": "claude-sonnet-5-5", "tier": 3, "note": "default effort"},
+  "opus":      {"args": ["--model", "claude-opus-5-5"], "model": "claude-opus-5-5", "tier": 5, "note": "default effort"}
+}

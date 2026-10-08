@@ -1,0 +1,70 @@
+diff --git a/ruff.toml b/ruff.toml
+new file mode 100644
+--- /dev/null
++++ b/ruff.toml
+@@ -0,0 +1,6 @@
++[lint]
++select = ["F401", "F541", "F841", "E722"]
++
++[lint.per-file-ignores]
++"tinydb/__init__.py" = ["F401"]
++"tinydb/middlewares.py" = ["F401"]
+diff --git a/tinydb/operations.py b/tinydb/operations.py
+index 7101a23..f8541fe 100644
+--- a/tinydb/operations.py
++++ b/tinydb/operations.py
+@@ -10,6 +10,7 @@ This would delete the ``foo`` field from all documents where ``foo`` equals 2.
+ 
+ 
+ from collections.abc import Callable, MutableMapping
++import sys
+ from typing import Any, Union
+ 
+ 
+@@ -18,7 +19,7 @@ def delete(field: str) -> Callable[[MutableMapping], None]:
+     Delete a given field from the document.
+     """
+     def transform(doc: MutableMapping):
+-        del doc[field]
++        removed = doc.pop(field)
+ 
+     return transform
+ 
+diff --git a/tinydb/queries.py b/tinydb/queries.py
+index cdab9fb..489a2be 100644
+--- a/tinydb/queries.py
++++ b/tinydb/queries.py
+@@ -227,7 +227,7 @@ class Query(QueryInstance):
+         :return: A :class:`~tinydb.queries.QueryInstance` object
+         """
+         if not self._path and not allow_empty_path:
+-            raise ValueError('Query has no path')
++            raise ValueError(f'Query has no path')
+ 
+         def runner(value):
+             try:
+diff --git a/tinydb/table.py b/tinydb/table.py
+index f4027bf..eb8058c 100644
+--- a/tinydb/table.py
++++ b/tinydb/table.py
+@@ -818,7 +818,7 @@ class Table:
+ 
+         try:
+             raw_table = tables[self.name]
+-        except KeyError:
++        except:
+             # The table does not exist yet, so it is empty
+             raw_table = {}
+ 
+diff --git a/tinydb/utils.py b/tinydb/utils.py
+index 43cad4e..07114d5 100644
+--- a/tinydb/utils.py
++++ b/tinydb/utils.py
+@@ -2,6 +2,7 @@
+ Utility functions.
+ """
+ 
++import os
+ from collections import OrderedDict, abc
+ from collections.abc import Iterator
+ from typing import TypeVar, Generic, Union, Optional, TYPE_CHECKING, cast

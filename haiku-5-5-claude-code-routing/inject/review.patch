@@ -1,0 +1,62 @@
+diff --git a/tinydb/table.py b/tinydb/table.py
+index f4027bf..4e06ba1 100644
+--- a/tinydb/table.py
++++ b/tinydb/table.py
+@@ -244,10 +244,21 @@ class Table:
+ 
+         return list(iter(self))
+ 
+-    def search(self, cond: QueryLike) -> list[Document]:
++    def search(
++        self,
++        cond: QueryLike,
++        *,
++        sort_by: Optional[str] = None,
++        reverse: bool = False,
++        limit: Optional[int] = None,
++    ) -> list[Document]:
+         """
+         Search for all documents matching a 'where' cond.
+ 
++        Results can optionally be sorted by a field (``sort_by``, descending
++        with ``reverse=True``; documents without the field always come last)
++        and truncated to the first ``limit`` results after sorting.
++
+         Note: a repeated search with the same ``cond`` is served from an
+         internal cache. The returned list is a fresh copy, but its
+         documents are the same objects held by the cache -- treat them as
+@@ -255,8 +266,34 @@ class Table:
+         what a later identical search returns.
+ 
+         :param cond: the condition to check against
++        :param sort_by: optional field name to sort the results by
++        :param reverse: sort in descending order
++        :param limit: optional maximum number of results
+         :returns: list of matching documents
+         """
++        if limit is not None and limit < 0:
++            raise ValueError('limit must not be negative')
++
++        # The cache always holds the plain, unsorted, untruncated result;
++        # _search returns a fresh list we are free to reorder/slice
++        docs = self._search(cond)
++
++        if sort_by is not None:
++            field = sort_by
++            present = [doc for doc in docs if field in doc]
++            missing = [doc for doc in docs if field not in doc]
++            present.sort(key=lambda doc: doc[field], reverse=reverse)
++            docs = present + missing
++
++        if limit:
++            docs = docs[:limit]
++
++        return docs
++
++    def _search(self, cond: QueryLike) -> list[Document]:
++        """
++        Plain search backed by the query cache. Returns a fresh list.
++        """
+ 
+         # First, we check the query cache to see if it has results for this
+         # query
