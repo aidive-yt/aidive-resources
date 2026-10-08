@@ -1,0 +1,7 @@
+{
+  "bare":   {"gate1": false, "gate3": null,    "desc": "no hook"},
+  "g1":     {"gate1": true,  "gate3": null,    "desc": "gate 1 (behaviour tests) only"},
+  "g3":     {"gate1": false, "gate3": "indep", "desc": "gate 3, two independent reviewers"},
+  "g13":    {"gate1": true,  "gate3": "indep", "desc": "gate 1 then gate 3 indep (Shopify order)"},
+  "g13adv": {"gate1": true,  "gate3": "adv",   "desc": "gate 1 then gate 3 reviewer + challenger"}
+}

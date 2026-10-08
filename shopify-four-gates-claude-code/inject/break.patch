@@ -1,0 +1,13 @@
+diff --git a/tinydb/queries.py b/tinydb/queries.py
+index cdab9fb..db00a2a 100644
+--- a/tinydb/queries.py
++++ b/tinydb/queries.py
+@@ -322,7 +322,7 @@ class Query(QueryInstance):
+         :param rhs: The value to compare against
+         """
+         return self._generate_test(
+-            lambda value: value >= rhs,
++            lambda value: value > rhs,
+             ('>=', self._path, rhs)
+         )
+ 
