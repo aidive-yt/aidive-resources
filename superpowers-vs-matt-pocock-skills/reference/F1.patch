@@ -1,0 +1,317 @@
+diff --git a/src/domain/invoice.ts b/src/domain/invoice.ts
+index 5b69fc9..0b9b69f 100644
+--- a/src/domain/invoice.ts
++++ b/src/domain/invoice.ts
+@@ -1,4 +1,4 @@
+-import { ConflictError } from "./errors";
++import { ConflictError, ValidationError } from "./errors";
+ import { type Cents, type Currency, sum } from "./money";
+ 
+ export type InvoiceStatus = "draft" | "open" | "paid" | "void";
+@@ -10,6 +10,12 @@ export type LineItem = {
+   unitPrice: Cents;
+ };
+ 
++export type Payment = {
++  /** cents, > 0 */
++  amount: Cents;
++  receivedAt: string;
++};
++
+ export type Invoice = {
+   id: string;
+   /** Assigned when the invoice is issued (INV-0001, ...). */
+@@ -25,6 +31,8 @@ export type Invoice = {
+   dueDate: string | null;
+   paidAt: string | null;
+   voidedAt: string | null;
++  /** Every payment received, oldest first. A paid invoice's payments add up to its total. */
++  payments: Payment[];
+ };
+ 
+ export type InvoiceTotals = { subtotal: Cents; discount: Cents; total: Cents };
+@@ -38,6 +46,14 @@ export function computeTotals(invoice: Pick<Invoice, "lines" | "discount">): Inv
+   return { subtotal, discount: invoice.discount, total: subtotal - invoice.discount };
+ }
+ 
++export function amountPaid(invoice: Pick<Invoice, "payments">): Cents {
++  return sum(invoice.payments.map((p) => p.amount));
++}
++
++export function balance(invoice: Pick<Invoice, "lines" | "discount" | "payments">): Cents {
++  return computeTotals(invoice).total - amountPaid(invoice);
++}
++
+ export function issue(invoice: Invoice, number: string, now: Date): Invoice {
+   if (invoice.status !== "draft") {
+     throw new ConflictError(`invoice ${invoice.id} is ${invoice.status}, only drafts can be issued`);
+@@ -45,11 +61,28 @@ export function issue(invoice: Invoice, number: string, now: Date): Invoice {
+   return { ...invoice, status: "open", number, issuedAt: now.toISOString() };
+ }
+ 
++/** Pays whatever is left on an open invoice in one go. */
+ export function markPaid(invoice: Invoice, now: Date): Invoice {
+   if (invoice.status !== "open") {
+     throw new ConflictError(`invoice ${invoice.id} is ${invoice.status}, only open invoices can be paid`);
+   }
+-  return { ...invoice, status: "paid", paidAt: now.toISOString() };
++  const remaining = balance(invoice);
++  const payments = remaining > 0 ? [...invoice.payments, { amount: remaining, receivedAt: now.toISOString() }] : invoice.payments;
++  return { ...invoice, payments, status: "paid", paidAt: now.toISOString() };
++}
++
++/** Records a partial (or final) payment; the invoice flips to paid when its balance reaches zero. */
++export function recordPayment(invoice: Invoice, amount: Cents, now: Date): Invoice {
++  if (invoice.status !== "open") {
++    throw new ConflictError(`invoice ${invoice.id} is ${invoice.status}, only open invoices can take payments`);
++  }
++  const remaining = balance(invoice);
++  if (amount > remaining) {
++    throw new ValidationError(`amount ${amount} exceeds the balance of ${remaining}`, "amount");
++  }
++  const payments = [...invoice.payments, { amount, receivedAt: now.toISOString() }];
++  const settled = amount === remaining;
++  return { ...invoice, payments, status: settled ? "paid" : "open", paidAt: settled ? now.toISOString() : null };
+ }
+ 
+ export function voidInvoice(invoice: Invoice, now: Date): Invoice {
+diff --git a/src/domain/validation.ts b/src/domain/validation.ts
+index 08dfa92..f2af418 100644
+--- a/src/domain/validation.ts
++++ b/src/domain/validation.ts
+@@ -10,6 +10,13 @@ export type NewInvoiceInput = {
+   dueDate: string | null;
+ };
+ 
++export function parsePayment(body: unknown): { amount: number } {
++  if (typeof body !== "object" || body === null) {
++    throw new ValidationError("body must be an object");
++  }
++  return { amount: assertCents((body as Record<string, unknown>).amount, "amount", { min: 1 }) };
++}
++
+ const DATE = /^\d{4}-\d{2}-\d{2}$/;
+ 
+ export function parseLineItems(value: unknown): LineItem[] {
+diff --git a/src/http/handlers/invoices.ts b/src/http/handlers/invoices.ts
+index 09959e1..ac2768e 100644
+--- a/src/http/handlers/invoices.ts
++++ b/src/http/handlers/invoices.ts
+@@ -1,6 +1,6 @@
+ import { ValidationError } from "../../domain/errors";
+-import { type Invoice, type InvoiceStatus, issue, markPaid, voidInvoice } from "../../domain/invoice";
+-import { parseNewInvoice } from "../../domain/validation";
++import { type Invoice, type InvoiceStatus, issue, markPaid, recordPayment, voidInvoice } from "../../domain/invoice";
++import { parseNewInvoice, parsePayment } from "../../domain/validation";
+ import type { AppContext } from "../context";
+ import type { Router } from "../router";
+ import { invoiceView } from "../views";
+@@ -22,6 +22,7 @@ export function invoiceRoutes(router: Router, ctx: AppContext): void {
+       issuedAt: null,
+       paidAt: null,
+       voidedAt: null,
++      payments: [],
+     };
+     return { status: 201, body: invoiceView(ctx.invoices.insert(invoice)) };
+   });
+@@ -51,6 +52,14 @@ export function invoiceRoutes(router: Router, ctx: AppContext): void {
+     return { status: 200, body: invoiceView(ctx.invoices.save(paid)) };
+   });
+ 
++  /** Records a partial payment; the last one (balance reaches zero) marks the invoice paid. */
++  router.on("POST", "/invoices/:id/payments", ({ params, body }) => {
++    const current = ctx.invoices.get(params.id);
++    const { amount } = parsePayment(body);
++    const updated = recordPayment(current, amount, ctx.now());
++    return { status: 201, body: invoiceView(ctx.invoices.save(updated)) };
++  });
++
+   router.on("POST", "/invoices/:id/void", ({ params }) => {
+     const voided = voidInvoice(ctx.invoices.get(params.id), ctx.now());
+     return { status: 200, body: invoiceView(ctx.invoices.save(voided)) };
+diff --git a/src/http/handlers/reports.ts b/src/http/handlers/reports.ts
+index 19262c9..656969e 100644
+--- a/src/http/handlers/reports.ts
++++ b/src/http/handlers/reports.ts
+@@ -1,18 +1,17 @@
+-import { computeTotals, isOverdue } from "../../domain/invoice";
++import { balance, isOverdue } from "../../domain/invoice";
+ import type { Currency } from "../../domain/money";
+ import type { AppContext } from "../context";
+ import type { Router } from "../router";
+ 
+ export function reportRoutes(router: Router, ctx: AppContext): void {
+-  /** What customers still owe us, per currency, over every open invoice. */
++  /** What customers still owe us (balances, net of partial payments), per currency, over every open invoice. */
+   router.on("GET", "/reports/outstanding", () => {
+     const now = ctx.now();
+     const totals: Partial<Record<Currency, number>> = {};
+     let count = 0;
+     let overdue = 0;
+     for (const invoice of ctx.invoices.list({ status: "open" })) {
+-      const { total } = computeTotals(invoice);
+-      totals[invoice.currency] = (totals[invoice.currency] ?? 0) + total;
++      totals[invoice.currency] = (totals[invoice.currency] ?? 0) + balance(invoice);
+       count += 1;
+       if (isOverdue(invoice, now)) overdue += 1;
+     }
+diff --git a/src/http/views.ts b/src/http/views.ts
+index 856944c..5b11bff 100644
+--- a/src/http/views.ts
++++ b/src/http/views.ts
+@@ -1,6 +1,6 @@
+-import { computeTotals, type Invoice } from "../domain/invoice";
++import { amountPaid, balance, computeTotals, type Invoice } from "../domain/invoice";
+ 
+ /** The JSON shape returned for an invoice: stored fields plus computed totals. */
+ export function invoiceView(invoice: Invoice) {
+-  return { ...invoice, ...computeTotals(invoice) };
++  return { ...invoice, ...computeTotals(invoice), amountPaid: amountPaid(invoice), balance: balance(invoice) };
+ }
+diff --git a/src/store/migrations.ts b/src/store/migrations.ts
+index c8b73a9..1eab4df 100644
+--- a/src/store/migrations.ts
++++ b/src/store/migrations.ts
+@@ -1,6 +1,7 @@
++import { computeTotals, type Invoice } from "../domain/invoice";
+ import type { StoreData } from "./types";
+ 
+-export const CURRENT_SCHEMA_VERSION = 1;
++export const CURRENT_SCHEMA_VERSION = 2;
+ 
+ type RawData = Record<string, unknown> & { schemaVersion?: number };
+ type Migration = (data: RawData) => RawData;
+@@ -21,9 +22,31 @@ const v0ToV1: Migration = (data) => {
+   };
+ };
+ 
++/**
++ * v1 -> v2: invoices carry `payments`. Invoices paid before payments existed were paid in full:
++ * they get one payment of their total at `paidAt`, so their balance is zero.
++ */
++const v1ToV2: Migration = (data) => {
++  const invoices = (data.invoices as Record<string, unknown>[] | undefined) ?? [];
++  return {
++    ...data,
++    schemaVersion: 2,
++    invoices: invoices.map((inv) => {
++      if (Array.isArray(inv.payments)) return inv;
++      const invoice = inv as unknown as Invoice;
++      const payments =
++        invoice.status === "paid"
++          ? [{ amount: computeTotals(invoice).total, receivedAt: invoice.paidAt ?? invoice.issuedAt ?? invoice.createdAt }]
++          : [];
++      return { ...inv, payments };
++    }),
++  };
++};
++
+ /** migrations[n] upgrades a file from version n to n + 1. */
+ const migrations: Record<number, Migration> = {
+   0: v0ToV1,
++  1: v1ToV2,
+ };
+ 
+ export function migrate(raw: unknown): StoreData {
+diff --git a/test/invoice.test.ts b/test/invoice.test.ts
+index 85202f2..e043b5d 100644
+--- a/test/invoice.test.ts
++++ b/test/invoice.test.ts
+@@ -21,6 +21,7 @@ function draft(overrides: Partial<Invoice> = {}): Invoice {
+     dueDate: null,
+     paidAt: null,
+     voidedAt: null,
++    payments: [],
+     ...overrides,
+   };
+ }
+diff --git a/test/payments.test.ts b/test/payments.test.ts
+new file mode 100644
+index 0000000..baf9da7
+--- /dev/null
++++ b/test/payments.test.ts
+@@ -0,0 +1,53 @@
++import { describe, expect, it } from "vitest";
++import { openStore } from "../src/store/json-store";
++import { seedCustomer, seedOpenInvoice, testApp } from "./helpers";
++
++describe("partial payments", () => {
++  it("accumulates payments and flips to paid at a zero balance", async () => {
++    const app = testApp();
++    const id = await seedOpenInvoice(app, { customerId: await seedCustomer(app), unitPrice: 10_000 });
++    expect((await app.handle("POST", `/invoices/${id}/payments`, { amount: 4_000 })).body).toMatchObject({
++      status: "open",
++      amountPaid: 4_000,
++      balance: 6_000,
++    });
++    const last = await app.handle("POST", `/invoices/${id}/payments`, { amount: 6_000 });
++    expect(last).toMatchObject({ status: 201, body: { status: "paid", amountPaid: 10_000, balance: 0 } });
++  });
++
++  it("rejects bad amounts and overpayments with 400", async () => {
++    const app = testApp();
++    const id = await seedOpenInvoice(app, { customerId: await seedCustomer(app), unitPrice: 10_000 });
++    for (const amount of [0, -1, 1.5, "10", undefined]) {
++      expect((await app.handle("POST", `/invoices/${id}/payments`, { amount })).status).toBe(400);
++    }
++    expect((await app.handle("POST", `/invoices/${id}/payments`, { amount: 10_001 })).status).toBe(400);
++  });
++
++  it("refuses payments on drafts, void and unknown invoices", async () => {
++    const app = testApp();
++    const customerId = await seedCustomer(app);
++    const draft = await app.handle("POST", "/invoices", {
++      customerId,
++      currency: "EUR",
++      lines: [{ description: "x", quantity: 1, unitPrice: 100 }],
++    });
++    expect((await app.handle("POST", `/invoices/${(draft.body as { id: string }).id}/payments`, { amount: 10 })).status).toBe(409);
++    const voided = await seedOpenInvoice(app, { customerId });
++    await app.handle("POST", `/invoices/${voided}/void`);
++    expect((await app.handle("POST", `/invoices/${voided}/payments`, { amount: 10 })).status).toBe(409);
++    expect((await app.handle("POST", "/invoices/inv_404/payments", { amount: 10 })).status).toBe(404);
++  });
++
++  it("keeps /pay consistent and reports balances, not totals", async () => {
++    const app = testApp(openStore());
++    const customerId = await seedCustomer(app);
++    const a = await seedOpenInvoice(app, { customerId, unitPrice: 10_000 });
++    const b = await seedOpenInvoice(app, { customerId, unitPrice: 5_000 });
++    await app.handle("POST", `/invoices/${a}/payments`, { amount: 2_500 });
++    expect((await app.handle("GET", "/reports/outstanding")).body).toMatchObject({ totals: { EUR: 12_500 } });
++    expect((await app.handle("POST", `/invoices/${a}/pay`)).body).toMatchObject({ status: "paid", amountPaid: 10_000, balance: 0 });
++    expect((await app.handle("GET", "/reports/outstanding")).body).toMatchObject({ totals: { EUR: 5_000 }, count: 1 });
++    expect(b).toBeTruthy();
++  });
++});
+diff --git a/test/store.test.ts b/test/store.test.ts
+index a1bf345..3201e2a 100644
+--- a/test/store.test.ts
++++ b/test/store.test.ts
+@@ -42,6 +42,26 @@ describe("store", () => {
+     expect(JSON.parse(readFileSync(file, "utf8")).schemaVersion).toBe(CURRENT_SCHEMA_VERSION);
+   });
+ 
++  it("migrates a v1 file: invoices paid before payments existed get one payment of their total", () => {
++    const file = tmpFile();
++    const inv = { customerId: "cus_1", currency: "EUR", lines: [{ description: "x", quantity: 2, unitPrice: 1_500 }], discount: 0 };
++    writeFileSync(
++      file,
++      JSON.stringify({
++        schemaVersion: 1,
++        counters: { customer: 1, invoice: 2, invoiceNumber: 2 },
++        customers: [],
++        invoices: [
++          { ...inv, id: "inv_1", status: "paid", paidAt: "2026-02-01T00:00:00.000Z" },
++          { ...inv, id: "inv_2", status: "open", paidAt: null },
++        ],
++      }),
++    );
++    const [paid, open] = openStore({ file }).read().invoices;
++    expect(paid.payments).toEqual([{ amount: 3_000, receivedAt: "2026-02-01T00:00:00.000Z" }]);
++    expect(open.payments).toEqual([]);
++  });
++
+   it("refuses a file from a newer build", () => {
+     expect(() => migrate({ schemaVersion: CURRENT_SCHEMA_VERSION + 1 })).toThrow(/newer/);
+   });

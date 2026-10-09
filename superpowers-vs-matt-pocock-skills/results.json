@@ -1,0 +1,3041 @@
+{
+  "configs": {
+    "F1/bare": {
+      "task": "F1",
+      "cfg": "bare",
+      "label": "bare",
+      "n": 3,
+      "hidden_mean": 5,
+      "hidden_median": 5,
+      "hidden_per_run": [
+        5,
+        5,
+        5
+      ],
+      "req_pass_rate": {
+        "test_req1": 3,
+        "test_req2": 3,
+        "test_req3": 3,
+        "test_req4": 3,
+        "test_req5": 3
+      },
+      "suite_green": 3,
+      "typecheck_green": 3,
+      "tests_added_mean": 4.667,
+      "code_diff_mean": 141.667,
+      "code_diff_median": 137,
+      "all_diff_mean": 142.333,
+      "non_code_files_mean": 0.333,
+      "tokens_mean": 519113.667,
+      "tokens_median": 361842,
+      "out_tokens_mean": 12001,
+      "usd_mean": 0.343,
+      "usd_median": 0.286,
+      "usd_po_mean": 0.021,
+      "wall_s_mean": 84.5,
+      "wall_s_median": 71.7,
+      "driver_turns_mean": 1.333,
+      "questions_mean": 0.333,
+      "caps": {},
+      "end_reasons": [
+        "done",
+        "done",
+        "done"
+      ],
+      "models": [
+        "claude-sonnet-5-5"
+      ],
+      "superpowers_injected": [
+        false,
+        false,
+        false
+      ],
+      "skills_per_run": {
+        "bare-r1": [],
+        "bare-r2": [],
+        "bare-r3": []
+      },
+      "skills_failed": {}
+    },
+    "F1/sp": {
+      "task": "F1",
+      "cfg": "sp",
+      "label": "sp (hook-routed)",
+      "n": 3,
+      "hidden_mean": 5,
+      "hidden_median": 5,
+      "hidden_per_run": [
+        5,
+        5,
+        5
+      ],
+      "req_pass_rate": {
+        "test_req1": 3,
+        "test_req2": 3,
+        "test_req3": 3,
+        "test_req4": 3,
+        "test_req5": 3
+      },
+      "suite_green": 3,
+      "typecheck_green": 3,
+      "tests_added_mean": 12.333,
+      "code_diff_mean": 235,
+      "code_diff_median": 227,
+      "all_diff_mean": 237,
+      "non_code_files_mean": 0.667,
+      "tokens_mean": 724600.667,
+      "tokens_median": 765108,
+      "out_tokens_mean": 16869.333,
+      "usd_mean": 0.502,
+      "usd_median": 0.525,
+      "usd_po_mean": 0.041,
+      "wall_s_mean": 118.1,
+      "wall_s_median": 119.6,
+      "driver_turns_mean": 2.667,
+      "questions_mean": 1.667,
+      "caps": {},
+      "end_reasons": [
+        "done",
+        "done",
+        "done"
+      ],
+      "models": [
+        "claude-sonnet-5-5"
+      ],
+      "superpowers_injected": [
+        true,
+        true,
+        true
+      ],
+      "skills_per_run": {
+        "sp-r1": [
+          "brainstorming"
+        ],
+        "sp-r2": [
+          "brainstorming",
+          "test-driven-development"
+        ],
+        "sp-r3": [
+          "brainstorming"
+        ]
+      },
+      "skills_failed": {}
+    },
+    "F1/spd": {
+      "task": "F1",
+      "cfg": "spd",
+      "label": "spd (Superpowers driven)",
+      "n": 3,
+      "hidden_mean": 5,
+      "hidden_median": 5,
+      "hidden_per_run": [
+        5,
+        5,
+        5
+      ],
+      "req_pass_rate": {
+        "test_req1": 3,
+        "test_req2": 3,
+        "test_req3": 3,
+        "test_req4": 3,
+        "test_req5": 3
+      },
+      "suite_green": 3,
+      "typecheck_green": 3,
+      "tests_added_mean": 27.667,
+      "code_diff_mean": 386,
+      "code_diff_median": 371,
+      "all_diff_mean": 582,
+      "non_code_files_mean": 2,
+      "tokens_mean": 4479876.333,
+      "tokens_median": 3887015,
+      "out_tokens_mean": 61684.667,
+      "usd_mean": 3.738,
+      "usd_median": 3.412,
+      "usd_po_mean": 0.116,
+      "wall_s_mean": 607.367,
+      "wall_s_median": 600.8,
+      "driver_turns_mean": 7,
+      "questions_mean": 4,
+      "caps": {},
+      "end_reasons": [
+        "done",
+        "done",
+        "done"
+      ],
+      "models": [
+        "claude-fable-5-1",
+        "claude-sonnet-5-5"
+      ],
+      "superpowers_injected": [
+        true,
+        true,
+        true
+      ],
+      "skills_per_run": {
+        "spd-r1": [
+          "test-driven-development"
+        ],
+        "spd-r2": [
+          "test-driven-development"
+        ],
+        "spd-r3": [
+          "test-driven-development",
+          "finishing-a-development-branch"
+        ]
+      },
+      "skills_failed": {}
+    },
+    "F1/mp": {
+      "task": "F1",
+      "cfg": "mp",
+      "label": "mp (Main Flow)",
+      "n": 3,
+      "hidden_mean": 5,
+      "hidden_median": 5,
+      "hidden_per_run": [
+        5,
+        5,
+        5
+      ],
+      "req_pass_rate": {
+        "test_req1": 3,
+        "test_req2": 3,
+        "test_req3": 3,
+        "test_req4": 3,
+        "test_req5": 3
+      },
+      "suite_green": 3,
+      "typecheck_green": 3,
+      "tests_added_mean": 27.667,
+      "code_diff_mean": 372,
+      "code_diff_median": 369,
+      "all_diff_mean": 578,
+      "non_code_files_mean": 7.667,
+      "tokens_mean": 4476103.667,
+      "tokens_median": 4286993,
+      "out_tokens_mean": 56959,
+      "usd_mean": 2.043,
+      "usd_median": 2.102,
+      "usd_po_mean": 0.205,
+      "wall_s_mean": 439.033,
+      "wall_s_median": 472.4,
+      "driver_turns_mean": 12,
+      "questions_mean": 7,
+      "caps": {
+        "mp-r1": [
+          "driver_turns_12"
+        ],
+        "mp-r3": [
+          "driver_turns_12"
+        ]
+      },
+      "end_reasons": [
+        "cap_driver_turns",
+        "done",
+        "cap_driver_turns"
+      ],
+      "models": [
+        "claude-sonnet-5-5"
+      ],
+      "superpowers_injected": [
+        false,
+        false,
+        false
+      ],
+      "skills_per_run": {
+        "mp-r1": [
+          "grilling",
+          "domain-modeling",
+          "tdd",
+          "code-review"
+        ],
+        "mp-r2": [
+          "grilling",
+          "domain-modeling",
+          "tdd",
+          "code-review"
+        ],
+        "mp-r3": [
+          "grilling",
+          "domain-modeling",
+          "tdd",
+          "code-review"
+        ]
+      },
+      "skills_failed": {}
+    },
+    "F1/both": {
+      "task": "F1",
+      "cfg": "both",
+      "label": "both (sp+mp, mp flow)",
+      "n": 1,
+      "hidden_mean": 5,
+      "hidden_median": 5,
+      "hidden_per_run": [
+        5
+      ],
+      "req_pass_rate": {
+        "test_req1": 1,
+        "test_req2": 1,
+        "test_req3": 1,
+        "test_req4": 1,
+        "test_req5": 1
+      },
+      "suite_green": 1,
+      "typecheck_green": 1,
+      "tests_added_mean": 22,
+      "code_diff_mean": 374,
+      "code_diff_median": 374,
+      "all_diff_mean": 561,
+      "non_code_files_mean": 8,
+      "tokens_mean": 5754354,
+      "tokens_median": 5754354,
+      "out_tokens_mean": 57632,
+      "usd_mean": 2.326,
+      "usd_median": 2.326,
+      "usd_po_mean": 0.218,
+      "wall_s_mean": 448.2,
+      "wall_s_median": 448.2,
+      "driver_turns_mean": 12,
+      "questions_mean": 6,
+      "caps": {},
+      "end_reasons": [
+        "done"
+      ],
+      "models": [
+        "claude-sonnet-5-5"
+      ],
+      "superpowers_injected": [
+        true
+      ],
+      "skills_per_run": {
+        "both-r1": [
+          "grilling",
+          "domain-modeling",
+          "tdd",
+          "code-review"
+        ]
+      },
+      "skills_failed": {}
+    },
+    "F2/bare": {
+      "task": "F2",
+      "cfg": "bare",
+      "label": "bare",
+      "n": 2,
+      "hidden_mean": 4.5,
+      "hidden_median": 4.5,
+      "hidden_per_run": [
+        4,
+        5
+      ],
+      "req_pass_rate": {
+        "test_req1": 2,
+        "test_req2": 2,
+        "test_req3": 1,
+        "test_req4": 2,
+        "test_req5": 2
+      },
+      "suite_green": 2,
+      "typecheck_green": 2,
+      "tests_added_mean": 5,
+      "code_diff_mean": 206.5,
+      "code_diff_median": 206.5,
+      "all_diff_mean": 209.5,
+      "non_code_files_mean": 1,
+      "tokens_mean": 651322,
+      "tokens_median": 651322.0,
+      "out_tokens_mean": 15475,
+      "usd_mean": 0.413,
+      "usd_median": 0.413,
+      "usd_po_mean": 0.031,
+      "wall_s_mean": 103.15,
+      "wall_s_median": 103.15,
+      "driver_turns_mean": 2,
+      "questions_mean": 0.5,
+      "caps": {},
+      "end_reasons": [
+        "done",
+        "done"
+      ],
+      "models": [
+        "claude-sonnet-5-5"
+      ],
+      "superpowers_injected": [
+        false,
+        false
+      ],
+      "skills_per_run": {
+        "f2-bare-r1": [],
+        "f2-bare-r2": []
+      },
+      "skills_failed": {}
+    },
+    "F2/spd": {
+      "task": "F2",
+      "cfg": "spd",
+      "label": "spd (Superpowers driven)",
+      "n": 2,
+      "hidden_mean": 5,
+      "hidden_median": 5.0,
+      "hidden_per_run": [
+        5,
+        5
+      ],
+      "req_pass_rate": {
+        "test_req1": 2,
+        "test_req2": 2,
+        "test_req3": 2,
+        "test_req4": 2,
+        "test_req5": 2
+      },
+      "suite_green": 2,
+      "typecheck_green": 2,
+      "tests_added_mean": 33,
+      "code_diff_mean": 488.5,
+      "code_diff_median": 488.5,
+      "all_diff_mean": 750.5,
+      "non_code_files_mean": 2.5,
+      "tokens_mean": 4490365,
+      "tokens_median": 4490365.0,
+      "out_tokens_mean": 56644.5,
+      "usd_mean": 3.213,
+      "usd_median": 3.213,
+      "usd_po_mean": 0.101,
+      "wall_s_mean": 511.7,
+      "wall_s_median": 511.7,
+      "driver_turns_mean": 6.5,
+      "questions_mean": 3.5,
+      "caps": {},
+      "end_reasons": [
+        "done",
+        "done"
+      ],
+      "models": [
+        "claude-fable-5-1",
+        "claude-sonnet-5-5"
+      ],
+      "superpowers_injected": [
+        true,
+        true
+      ],
+      "skills_per_run": {
+        "f2-spd-r1": [
+          "writing-plans",
+          "test-driven-development"
+        ],
+        "f2-spd-r2": [
+          "test-driven-development"
+        ]
+      },
+      "skills_failed": {}
+    },
+    "F2/mp": {
+      "task": "F2",
+      "cfg": "mp",
+      "label": "mp (Main Flow)",
+      "n": 2,
+      "hidden_mean": 5,
+      "hidden_median": 5.0,
+      "hidden_per_run": [
+        5,
+        5
+      ],
+      "req_pass_rate": {
+        "test_req1": 2,
+        "test_req2": 2,
+        "test_req3": 2,
+        "test_req4": 2,
+        "test_req5": 2
+      },
+      "suite_green": 2,
+      "typecheck_green": 2,
+      "tests_added_mean": 31,
+      "code_diff_mean": 469,
+      "code_diff_median": 469.0,
+      "all_diff_mean": 658,
+      "non_code_files_mean": 6.5,
+      "tokens_mean": 4520638.5,
+      "tokens_median": 4520638.5,
+      "out_tokens_mean": 57142,
+      "usd_mean": 2.067,
+      "usd_median": 2.067,
+      "usd_po_mean": 0.203,
+      "wall_s_mean": 421.2,
+      "wall_s_median": 421.2,
+      "driver_turns_mean": 12,
+      "questions_mean": 6.5,
+      "caps": {
+        "f2-mp-r1": [
+          "driver_turns_12"
+        ]
+      },
+      "end_reasons": [
+        "cap_driver_turns",
+        "done"
+      ],
+      "models": [
+        "claude-sonnet-5-5"
+      ],
+      "superpowers_injected": [
+        false,
+        false
+      ],
+      "skills_per_run": {
+        "f2-mp-r1": [
+          "grilling",
+          "domain-modeling",
+          "tdd",
+          "code-review"
+        ],
+        "f2-mp-r2": [
+          "grilling",
+          "domain-modeling",
+          "tdd",
+          "code-review"
+        ]
+      },
+      "skills_failed": {}
+    }
+  },
+  "stages": {
+    "F1/sp_skill": {
+      "(none)": {
+        "runs_with_stage": 3,
+        "tokens_mean": 19549,
+        "tokens_median": 19538,
+        "out_tokens_mean": 238,
+        "usd_mean": 0.03,
+        "usd_median": 0.03,
+        "wall_s_mean": 5.333,
+        "wall_s_median": 5.4
+      },
+      "brainstorming": {
+        "runs_with_stage": 3,
+        "tokens_mean": 249260,
+        "tokens_median": 247900,
+        "out_tokens_mean": 8037.333,
+        "usd_mean": 0.219,
+        "usd_median": 0.244,
+        "wall_s_mean": 40.533,
+        "wall_s_median": 40.1
+      },
+      "test-driven-development": {
+        "runs_with_stage": 1,
+        "tokens_mean": 595318,
+        "tokens_median": 595318,
+        "out_tokens_mean": 15622,
+        "usd_mean": 0.405,
+        "usd_median": 0.405,
+        "wall_s_mean": 93.0,
+        "wall_s_median": 93.0
+      },
+      "implementation (no skill)": {
+        "runs_with_stage": 2,
+        "tokens_mean": 386028.5,
+        "tokens_median": 386028.5,
+        "out_tokens_mean": 5080,
+        "usd_mean": 0.176,
+        "usd_median": 0.176,
+        "wall_s_mean": 60.3,
+        "wall_s_median": 60.3
+      }
+    },
+    "F1/sp_phase": {
+      "before any skill": {
+        "runs_with_stage": 3,
+        "tokens_mean": 19549,
+        "tokens_median": 19538,
+        "out_tokens_mean": 238,
+        "usd_mean": 0.03,
+        "usd_median": 0.03,
+        "wall_s_mean": 5.333,
+        "wall_s_median": 5.4
+      },
+      "brainstorming": {
+        "runs_with_stage": 3,
+        "tokens_mean": 249260,
+        "tokens_median": 247900,
+        "out_tokens_mean": 8037.333,
+        "usd_mean": 0.219,
+        "usd_median": 0.244,
+        "wall_s_mean": 40.533,
+        "wall_s_median": 40.1
+      },
+      "implementation (no skill)": {
+        "runs_with_stage": 2,
+        "tokens_mean": 386028.5,
+        "tokens_median": 386028.5,
+        "out_tokens_mean": 5080,
+        "usd_mean": 0.176,
+        "usd_median": 0.176,
+        "wall_s_mean": 60.3,
+        "wall_s_median": 60.3
+      },
+      "execution": {
+        "runs_with_stage": 1,
+        "tokens_mean": 595318,
+        "tokens_median": 595318,
+        "out_tokens_mean": 15622,
+        "usd_mean": 0.405,
+        "usd_median": 0.405,
+        "wall_s_mean": 93.0,
+        "wall_s_median": 93.0
+      }
+    },
+    "F1/spd_skill": {
+      "brainstorming": {
+        "runs_with_stage": 3,
+        "tokens_mean": 182021.667,
+        "tokens_median": 160834,
+        "out_tokens_mean": 4160.667,
+        "usd_mean": 0.166,
+        "usd_median": 0.156,
+        "wall_s_mean": 38.8,
+        "wall_s_median": 33.6
+      },
+      "writing-plans": {
+        "runs_with_stage": 3,
+        "tokens_mean": 321354.667,
+        "tokens_median": 298267,
+        "out_tokens_mean": 11827,
+        "usd_mean": 0.266,
+        "usd_median": 0.274,
+        "wall_s_mean": 86.733,
+        "wall_s_median": 95.1
+      },
+      "executing-plans": {
+        "runs_with_stage": 3,
+        "tokens_mean": 66938,
+        "tokens_median": 68739,
+        "out_tokens_mean": 505,
+        "usd_mean": 0.047,
+        "usd_median": 0.047,
+        "wall_s_mean": 4.6,
+        "wall_s_median": 4.6
+      },
+      "test-driven-development": {
+        "runs_with_stage": 3,
+        "tokens_mean": 2927098.333,
+        "tokens_median": 2854967,
+        "out_tokens_mean": 22508.333,
+        "usd_mean": 0.974,
+        "usd_median": 0.936,
+        "wall_s_mean": 457.033,
+        "wall_s_median": 448.9
+      },
+      "finishing-a-development-branch": {
+        "runs_with_stage": 1,
+        "tokens_mean": 976505,
+        "tokens_median": 976505,
+        "out_tokens_mean": 5297,
+        "usd_mean": 0.282,
+        "usd_median": 0.282,
+        "wall_s_mean": 50.7,
+        "wall_s_median": 50.7
+      },
+      "test-driven-development [subagent]": {
+        "runs_with_stage": 3,
+        "tokens_mean": 656962,
+        "tokens_median": 565811,
+        "out_tokens_mean": 20918,
+        "usd_mean": 2.192,
+        "usd_median": 2.047,
+        "wall_s_mean": 0.0,
+        "wall_s_median": 0.0
+      }
+    },
+    "F1/spd_phase": {
+      "brainstorming": {
+        "runs_with_stage": 3,
+        "tokens_mean": 182021.667,
+        "tokens_median": 160834,
+        "out_tokens_mean": 4160.667,
+        "usd_mean": 0.166,
+        "usd_median": 0.156,
+        "wall_s_mean": 38.8,
+        "wall_s_median": 33.6
+      },
+      "writing-plans": {
+        "runs_with_stage": 3,
+        "tokens_mean": 321354.667,
+        "tokens_median": 298267,
+        "out_tokens_mean": 11827,
+        "usd_mean": 0.266,
+        "usd_median": 0.274,
+        "wall_s_mean": 86.733,
+        "wall_s_median": 95.1
+      },
+      "execution": {
+        "runs_with_stage": 3,
+        "tokens_mean": 2994036.333,
+        "tokens_median": 2916459,
+        "out_tokens_mean": 23013.333,
+        "usd_mean": 1.021,
+        "usd_median": 0.981,
+        "wall_s_mean": 461.633,
+        "wall_s_median": 453.5
+      },
+      "finishing": {
+        "runs_with_stage": 1,
+        "tokens_mean": 976505,
+        "tokens_median": 976505,
+        "out_tokens_mean": 5297,
+        "usd_mean": 0.282,
+        "usd_median": 0.282,
+        "wall_s_mean": 50.7,
+        "wall_s_median": 50.7
+      },
+      "subagents (reviewers, explorers)": {
+        "runs_with_stage": 3,
+        "tokens_mean": 656962,
+        "tokens_median": 565811,
+        "out_tokens_mean": 20918,
+        "usd_mean": 2.192,
+        "usd_median": 2.047,
+        "wall_s_mean": 0.0,
+        "wall_s_median": 0.0
+      }
+    },
+    "F1/spd_slash": {
+      "/brainstorming": {
+        "runs_with_stage": 3,
+        "tokens_mean": 182021.667,
+        "tokens_median": 160834,
+        "out_tokens_mean": null,
+        "usd_mean": 0.166,
+        "usd_median": 0.156,
+        "wall_s_mean": 40.283,
+        "wall_s_median": 35.44
+      },
+      "/writing-plans": {
+        "runs_with_stage": 3,
+        "tokens_mean": 321354.667,
+        "tokens_median": 298267,
+        "out_tokens_mean": null,
+        "usd_mean": 0.266,
+        "usd_median": 0.274,
+        "wall_s_mean": 88.133,
+        "wall_s_median": 95.82
+      },
+      "/executing-plans": {
+        "runs_with_stage": 3,
+        "tokens_mean": 3976500,
+        "tokens_median": 3427914,
+        "out_tokens_mean": null,
+        "usd_mean": 3.307,
+        "usd_median": 3.028,
+        "wall_s_mean": 478.95,
+        "wall_s_median": 453.89
+      }
+    },
+    "F1/mp": {
+      "/grill-with-docs": {
+        "runs_with_stage": 3,
+        "tokens_mean": 316507.333,
+        "tokens_median": 348862,
+        "out_tokens_mean": 5999,
+        "usd_mean": 0.204,
+        "usd_median": 0.215,
+        "wall_s_mean": 59.933,
+        "wall_s_median": 59.9
+      },
+      "/to-spec": {
+        "runs_with_stage": 3,
+        "tokens_mean": 163344,
+        "tokens_median": 167578,
+        "out_tokens_mean": 5134.667,
+        "usd_mean": 0.118,
+        "usd_median": 0.113,
+        "wall_s_mean": 42.1,
+        "wall_s_median": 40.8
+      },
+      "/to-tickets": {
+        "runs_with_stage": 3,
+        "tokens_mean": 257955.333,
+        "tokens_median": 268062,
+        "out_tokens_mean": 5867.333,
+        "usd_mean": 0.143,
+        "usd_median": 0.151,
+        "wall_s_mean": 44.4,
+        "wall_s_median": 47.8
+      },
+      "/implement": {
+        "runs_with_stage": 3,
+        "tokens_mean": 2655564.667,
+        "tokens_median": 2613062,
+        "out_tokens_mean": 30214.667,
+        "usd_mean": 1.125,
+        "usd_median": 1.195,
+        "wall_s_mean": 224.567,
+        "wall_s_median": 245.4
+      },
+      "/code-review": {
+        "runs_with_stage": 3,
+        "tokens_mean": 1047585.667,
+        "tokens_median": 1107555,
+        "out_tokens_mean": 9293.667,
+        "usd_mean": 0.439,
+        "usd_median": 0.445,
+        "wall_s_mean": 64.2,
+        "wall_s_median": 65.8
+      },
+      "/pr": {
+        "runs_with_stage": 1,
+        "tokens_mean": 105440,
+        "tokens_median": 105440,
+        "out_tokens_mean": 1349,
+        "usd_mean": 0.041,
+        "usd_median": 0.041,
+        "wall_s_mean": 11.6,
+        "wall_s_median": 11.6
+      }
+    },
+    "F1/both": {
+      "/grill-with-docs": {
+        "runs_with_stage": 1,
+        "tokens_mean": 344391,
+        "tokens_median": 344391,
+        "out_tokens_mean": 6193,
+        "usd_mean": 0.225,
+        "usd_median": 0.225,
+        "wall_s_mean": 61.8,
+        "wall_s_median": 61.8
+      },
+      "/to-spec": {
+        "runs_with_stage": 1,
+        "tokens_mean": 217572,
+        "tokens_median": 217572,
+        "out_tokens_mean": 4835,
+        "usd_mean": 0.123,
+        "usd_median": 0.123,
+        "wall_s_mean": 42.9,
+        "wall_s_median": 42.9
+      },
+      "/to-tickets": {
+        "runs_with_stage": 1,
+        "tokens_mean": 382953,
+        "tokens_median": 382953,
+        "out_tokens_mean": 7115,
+        "usd_mean": 0.196,
+        "usd_median": 0.196,
+        "wall_s_mean": 49.4,
+        "wall_s_median": 49.4
+      },
+      "/implement": {
+        "runs_with_stage": 1,
+        "tokens_mean": 3070579,
+        "tokens_median": 3070579,
+        "out_tokens_mean": 24618,
+        "usd_mean": 1.112,
+        "usd_median": 1.112,
+        "wall_s_mean": 194.2,
+        "wall_s_median": 194.2
+      },
+      "/code-review": {
+        "runs_with_stage": 1,
+        "tokens_mean": 1615265,
+        "tokens_median": 1615265,
+        "out_tokens_mean": 13410,
+        "usd_mean": 0.625,
+        "usd_median": 0.625,
+        "wall_s_mean": 86.8,
+        "wall_s_median": 86.8
+      },
+      "/pr": {
+        "runs_with_stage": 1,
+        "tokens_mean": 123594,
+        "tokens_median": 123594,
+        "out_tokens_mean": 1461,
+        "usd_mean": 0.045,
+        "usd_median": 0.045,
+        "wall_s_mean": 13.1,
+        "wall_s_median": 13.1
+      }
+    },
+    "F2/spd_skill": {
+      "brainstorming": {
+        "runs_with_stage": 2,
+        "tokens_mean": 253890,
+        "tokens_median": 253890.0,
+        "out_tokens_mean": 6038,
+        "usd_mean": 0.207,
+        "usd_median": 0.207,
+        "wall_s_mean": 53.05,
+        "wall_s_median": 53.05
+      },
+      "writing-plans": {
+        "runs_with_stage": 2,
+        "tokens_mean": 397486.5,
+        "tokens_median": 397486.5,
+        "out_tokens_mean": 14059.5,
+        "usd_mean": 0.307,
+        "usd_median": 0.307,
+        "wall_s_mean": 90.75,
+        "wall_s_median": 90.75
+      },
+      "executing-plans": {
+        "runs_with_stage": 2,
+        "tokens_mean": 69973,
+        "tokens_median": 69973.0,
+        "out_tokens_mean": 286.5,
+        "usd_mean": 0.046,
+        "usd_median": 0.046,
+        "wall_s_mean": 3.5,
+        "wall_s_median": 3.5
+      },
+      "test-driven-development": {
+        "runs_with_stage": 2,
+        "tokens_mean": 3304676.5,
+        "tokens_median": 3304676.5,
+        "out_tokens_mean": 23243.5,
+        "usd_mean": 1.052,
+        "usd_median": 1.052,
+        "wall_s_mean": 361.25,
+        "wall_s_median": 361.25
+      },
+      "test-driven-development [subagent]": {
+        "runs_with_stage": 2,
+        "tokens_mean": 464339,
+        "tokens_median": 464339.0,
+        "out_tokens_mean": 13017,
+        "usd_mean": 1.602,
+        "usd_median": 1.602,
+        "wall_s_mean": 0.0,
+        "wall_s_median": 0.0
+      }
+    },
+    "F2/spd_phase": {
+      "brainstorming": {
+        "runs_with_stage": 2,
+        "tokens_mean": 253890,
+        "tokens_median": 253890.0,
+        "out_tokens_mean": 6038,
+        "usd_mean": 0.207,
+        "usd_median": 0.207,
+        "wall_s_mean": 53.05,
+        "wall_s_median": 53.05
+      },
+      "writing-plans": {
+        "runs_with_stage": 2,
+        "tokens_mean": 397486.5,
+        "tokens_median": 397486.5,
+        "out_tokens_mean": 14059.5,
+        "usd_mean": 0.307,
+        "usd_median": 0.307,
+        "wall_s_mean": 90.75,
+        "wall_s_median": 90.75
+      },
+      "execution": {
+        "runs_with_stage": 2,
+        "tokens_mean": 3374649.5,
+        "tokens_median": 3374649.5,
+        "out_tokens_mean": 23530,
+        "usd_mean": 1.098,
+        "usd_median": 1.098,
+        "wall_s_mean": 364.75,
+        "wall_s_median": 364.75
+      },
+      "subagents (reviewers, explorers)": {
+        "runs_with_stage": 2,
+        "tokens_mean": 464339,
+        "tokens_median": 464339.0,
+        "out_tokens_mean": 13017,
+        "usd_mean": 1.602,
+        "usd_median": 1.602,
+        "wall_s_mean": 0.0,
+        "wall_s_median": 0.0
+      }
+    },
+    "F2/spd_slash": {
+      "/brainstorming": {
+        "runs_with_stage": 2,
+        "tokens_mean": 485364,
+        "tokens_median": 485364.0,
+        "out_tokens_mean": null,
+        "usd_mean": 0.354,
+        "usd_median": 0.354,
+        "wall_s_mean": 96.815,
+        "wall_s_median": 96.815
+      },
+      "/writing-plans": {
+        "runs_with_stage": 2,
+        "tokens_mean": 166012.5,
+        "tokens_median": 166012.5,
+        "out_tokens_mean": null,
+        "usd_mean": 0.159,
+        "usd_median": 0.159,
+        "wall_s_mean": 49.755,
+        "wall_s_median": 49.755
+      },
+      "/executing-plans": {
+        "runs_with_stage": 2,
+        "tokens_mean": 3838988.5,
+        "tokens_median": 3838988.5,
+        "out_tokens_mean": null,
+        "usd_mean": 2.7,
+        "usd_median": 2.7,
+        "wall_s_mean": 365.1,
+        "wall_s_median": 365.1
+      }
+    },
+    "F2/mp": {
+      "/grill-with-docs": {
+        "runs_with_stage": 2,
+        "tokens_mean": 232965,
+        "tokens_median": 232965.0,
+        "out_tokens_mean": 5946,
+        "usd_mean": 0.182,
+        "usd_median": 0.182,
+        "wall_s_mean": 56.7,
+        "wall_s_median": 56.7
+      },
+      "/to-spec": {
+        "runs_with_stage": 2,
+        "tokens_mean": 180084.5,
+        "tokens_median": 180084.5,
+        "out_tokens_mean": 4452,
+        "usd_mean": 0.115,
+        "usd_median": 0.115,
+        "wall_s_mean": 37.6,
+        "wall_s_median": 37.6
+      },
+      "/to-tickets": {
+        "runs_with_stage": 2,
+        "tokens_mean": 253688.5,
+        "tokens_median": 253688.5,
+        "out_tokens_mean": 5152.5,
+        "usd_mean": 0.131,
+        "usd_median": 0.131,
+        "wall_s_mean": 38.5,
+        "wall_s_median": 38.5
+      },
+      "/implement": {
+        "runs_with_stage": 2,
+        "tokens_mean": 2689071,
+        "tokens_median": 2689071.0,
+        "out_tokens_mean": 31452,
+        "usd_mean": 1.159,
+        "usd_median": 1.159,
+        "wall_s_mean": 218.35,
+        "wall_s_median": 218.35
+      },
+      "/code-review": {
+        "runs_with_stage": 2,
+        "tokens_mean": 1107122.5,
+        "tokens_median": 1107122.5,
+        "out_tokens_mean": 9453.5,
+        "usd_mean": 0.458,
+        "usd_median": 0.458,
+        "wall_s_mean": 63.85,
+        "wall_s_median": 63.85
+      },
+      "/pr": {
+        "runs_with_stage": 1,
+        "tokens_mean": 115414,
+        "tokens_median": 115414,
+        "out_tokens_mean": 1372,
+        "usd_mean": 0.043,
+        "usd_median": 0.043,
+        "wall_s_mean": 12.4,
+        "wall_s_median": 12.4
+      }
+    }
+  },
+  "runs": [
+    {
+      "run": "bare-r1",
+      "task": "F1",
+      "cfg": "bare",
+      "hidden_pass": 5,
+      "hidden_reqs": {
+        "test_req1": true,
+        "test_req2": true,
+        "test_req3": true,
+        "test_req4": true,
+        "test_req5": true
+      },
+      "suite_green": true,
+      "typecheck_green": true,
+      "code_diff_added": 149,
+      "code_diff_removed": 11,
+      "diff_added": 150,
+      "diff_removed": 12,
+      "tests_added_suite": 6,
+      "tokens": {
+        "in": 42,
+        "out": 16265,
+        "cr": 786548,
+        "cw": 37896,
+        "total": 840751
+      },
+      "usd": 0.4716,
+      "usd_po": 0.0321,
+      "wall_s": 118.8,
+      "driver_turns": 2,
+      "questions_routed_to_po": 1,
+      "end_reason": "done",
+      "caps": [],
+      "skills_invoked": [],
+      "superpowers_injected": false,
+      "commits": 0,
+      "models": [
+        "claude-sonnet-5-5"
+      ],
+      "stages": {
+        "bare": {
+          "turns": [
+            1,
+            2
+          ],
+          "in": 42,
+          "out": 16265,
+          "cr": 786548,
+          "cw": 37896,
+          "total": 840751,
+          "usd": 0.4716,
+          "wall_s": 118.8,
+          "api_calls": 21
+        }
+      }
+    },
+    {
+      "run": "bare-r2",
+      "task": "F1",
+      "cfg": "bare",
+      "hidden_pass": 5,
+      "hidden_reqs": {
+        "test_req1": true,
+        "test_req2": true,
+        "test_req3": true,
+        "test_req4": true,
+        "test_req5": true
+      },
+      "suite_green": true,
+      "typecheck_green": true,
+      "code_diff_added": 118,
+      "code_diff_removed": 10,
+      "diff_added": 118,
+      "diff_removed": 10,
+      "tests_added_suite": 4,
+      "tokens": {
+        "in": 22,
+        "out": 9513,
+        "cr": 316959,
+        "cw": 28254,
+        "total": 354748
+      },
+      "usd": 0.2716,
+      "usd_po": 0.016,
+      "wall_s": 63.0,
+      "driver_turns": 1,
+      "questions_routed_to_po": 0,
+      "end_reason": "done",
+      "caps": [],
+      "skills_invoked": [],
+      "superpowers_injected": false,
+      "commits": 0,
+      "models": [
+        "claude-sonnet-5-5"
+      ],
+      "stages": {
+        "bare": {
+          "turns": [
+            1
+          ],
+          "in": 22,
+          "out": 9513,
+          "cr": 316959,
+          "cw": 28254,
+          "total": 354748,
+          "usd": 0.2716,
+          "wall_s": 63.0,
+          "api_calls": 11
+        }
+      }
+    },
+    {
+      "run": "bare-r3",
+      "task": "F1",
+      "cfg": "bare",
+      "hidden_pass": 5,
+      "hidden_reqs": {
+        "test_req1": true,
+        "test_req2": true,
+        "test_req3": true,
+        "test_req4": true,
+        "test_req5": true
+      },
+      "suite_green": true,
+      "typecheck_green": true,
+      "code_diff_added": 125,
+      "code_diff_removed": 12,
+      "diff_added": 125,
+      "diff_removed": 12,
+      "tests_added_suite": 4,
+      "tokens": {
+        "in": 22,
+        "out": 10225,
+        "cr": 321705,
+        "cw": 29890,
+        "total": 361842
+      },
+      "usd": 0.2862,
+      "usd_po": 0.0148,
+      "wall_s": 71.7,
+      "driver_turns": 1,
+      "questions_routed_to_po": 0,
+      "end_reason": "done",
+      "caps": [],
+      "skills_invoked": [],
+      "superpowers_injected": false,
+      "commits": 0,
+      "models": [
+        "claude-sonnet-5-5"
+      ],
+      "stages": {
+        "bare": {
+          "turns": [
+            1
+          ],
+          "in": 22,
+          "out": 10225,
+          "cr": 321705,
+          "cw": 29890,
+          "total": 361842,
+          "usd": 0.2862,
+          "wall_s": 71.7,
+          "api_calls": 11
+        }
+      }
+    },
+    {
+      "run": "both-r1",
+      "task": "F1",
+      "cfg": "both",
+      "hidden_pass": 5,
+      "hidden_reqs": {
+        "test_req1": true,
+        "test_req2": true,
+        "test_req3": true,
+        "test_req4": true,
+        "test_req5": true
+      },
+      "suite_green": true,
+      "typecheck_green": true,
+      "code_diff_added": 356,
+      "code_diff_removed": 18,
+      "diff_added": 543,
+      "diff_removed": 18,
+      "tests_added_suite": 22,
+      "tokens": {
+        "in": 192,
+        "out": 57632,
+        "cr": 5502518,
+        "cw": 194012,
+        "total": 5754354
+      },
+      "usd": 2.3259,
+      "usd_po": 0.2185,
+      "wall_s": 448.2,
+      "driver_turns": 12,
+      "questions_routed_to_po": 6,
+      "end_reason": "done",
+      "caps": [],
+      "skills_invoked": [
+        "grilling",
+        "domain-modeling",
+        "tdd",
+        "code-review"
+      ],
+      "superpowers_injected": true,
+      "commits": 7,
+      "models": [
+        "claude-sonnet-5-5"
+      ],
+      "stages": {
+        "/grill-with-docs": {
+          "turns": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "in": 22,
+          "out": 6193,
+          "cr": 313031,
+          "cw": 25145,
+          "total": 344391,
+          "usd": 0.2252,
+          "wall_s": 61.8,
+          "api_calls": 11
+        },
+        "/to-spec": {
+          "turns": [
+            5,
+            6
+          ],
+          "in": 12,
+          "out": 4835,
+          "cr": 204355,
+          "cw": 8370,
+          "total": 217572,
+          "usd": 0.1227,
+          "wall_s": 42.9,
+          "api_calls": 5
+        },
+        "/to-tickets": {
+          "turns": [
+            7,
+            8
+          ],
+          "in": 16,
+          "out": 7115,
+          "cr": 362815,
+          "cw": 13007,
+          "total": 382953,
+          "usd": 0.1958,
+          "wall_s": 49.4,
+          "api_calls": 7
+        },
+        "/implement": {
+          "turns": [
+            9
+          ],
+          "in": 92,
+          "out": 24618,
+          "cr": 2960003,
+          "cw": 85866,
+          "total": 3070579,
+          "usd": 1.1123,
+          "wall_s": 194.2,
+          "api_calls": 36
+        },
+        "/code-review": {
+          "turns": [
+            10,
+            11
+          ],
+          "in": 46,
+          "out": 13410,
+          "cr": 1541663,
+          "cw": 60146,
+          "total": 1615265,
+          "usd": 0.6253,
+          "wall_s": 86.8,
+          "api_calls": 13
+        },
+        "/pr": {
+          "turns": [
+            12
+          ],
+          "in": 4,
+          "out": 1461,
+          "cr": 120651,
+          "cw": 1478,
+          "total": 123594,
+          "usd": 0.0447,
+          "wall_s": 13.1,
+          "api_calls": 1
+        }
+      }
+    },
+    {
+      "run": "f2-bare-r1",
+      "task": "F2",
+      "cfg": "bare",
+      "hidden_pass": 4,
+      "hidden_reqs": {
+        "test_req1": true,
+        "test_req2": true,
+        "test_req3": false,
+        "test_req4": true,
+        "test_req5": true
+      },
+      "suite_green": true,
+      "typecheck_green": true,
+      "code_diff_added": 204,
+      "code_diff_removed": 10,
+      "diff_added": 208,
+      "diff_removed": 10,
+      "tests_added_suite": 5,
+      "tokens": {
+        "in": 28,
+        "out": 15066,
+        "cr": 444890,
+        "cw": 34247,
+        "total": 494231
+      },
+      "usd": 0.3767,
+      "usd_po": 0.0167,
+      "wall_s": 91.6,
+      "driver_turns": 1,
+      "questions_routed_to_po": 0,
+      "end_reason": "done",
+      "caps": [],
+      "skills_invoked": [],
+      "superpowers_injected": false,
+      "commits": 0,
+      "models": [
+        "claude-sonnet-5-5"
+      ],
+      "stages": {
+        "bare": {
+          "turns": [
+            1
+          ],
+          "in": 28,
+          "out": 15066,
+          "cr": 444890,
+          "cw": 34247,
+          "total": 494231,
+          "usd": 0.3767,
+          "wall_s": 91.6,
+          "api_calls": 14
+        }
+      }
+    },
+    {
+      "run": "f2-bare-r2",
+      "task": "F2",
+      "cfg": "bare",
+      "hidden_pass": 5,
+      "hidden_reqs": {
+        "test_req1": true,
+        "test_req2": true,
+        "test_req3": true,
+        "test_req4": true,
+        "test_req5": true
+      },
+      "suite_green": true,
+      "typecheck_green": true,
+      "code_diff_added": 189,
+      "code_diff_removed": 10,
+      "diff_added": 191,
+      "diff_removed": 10,
+      "tests_added_suite": 5,
+      "tokens": {
+        "in": 42,
+        "out": 15884,
+        "cr": 757517,
+        "cw": 34970,
+        "total": 808413
+      },
+      "usd": 0.4503,
+      "usd_po": 0.0453,
+      "wall_s": 114.7,
+      "driver_turns": 3,
+      "questions_routed_to_po": 1,
+      "end_reason": "done",
+      "caps": [],
+      "skills_invoked": [],
+      "superpowers_injected": false,
+      "commits": 1,
+      "models": [
+        "claude-sonnet-5-5"
+      ],
+      "stages": {
+        "bare": {
+          "turns": [
+            1,
+            2,
+            3
+          ],
+          "in": 42,
+          "out": 15884,
+          "cr": 757517,
+          "cw": 34970,
+          "total": 808413,
+          "usd": 0.4503,
+          "wall_s": 114.7,
+          "api_calls": 21
+        }
+      }
+    },
+    {
+      "run": "f2-mp-r1",
+      "task": "F2",
+      "cfg": "mp",
+      "hidden_pass": 5,
+      "hidden_reqs": {
+        "test_req1": true,
+        "test_req2": true,
+        "test_req3": true,
+        "test_req4": true,
+        "test_req5": true
+      },
+      "suite_green": true,
+      "typecheck_green": true,
+      "code_diff_added": 460,
+      "code_diff_removed": 23,
+      "diff_added": 666,
+      "diff_removed": 25,
+      "tests_added_suite": 31,
+      "tokens": {
+        "in": 172,
+        "out": 60658,
+        "cr": 4559790,
+        "cw": 202896,
+        "total": 4823516
+      },
+      "usd": 2.1824,
+      "usd_po": 0.1989,
+      "wall_s": 443.0,
+      "driver_turns": 12,
+      "questions_routed_to_po": 7,
+      "end_reason": "cap_driver_turns",
+      "caps": [
+        "driver_turns_12"
+      ],
+      "skills_invoked": [
+        "grilling",
+        "domain-modeling",
+        "tdd",
+        "code-review"
+      ],
+      "superpowers_injected": false,
+      "commits": 7,
+      "models": [
+        "claude-sonnet-5-5"
+      ],
+      "stages": {
+        "/grill-with-docs": {
+          "turns": [
+            1,
+            2,
+            3
+          ],
+          "in": 18,
+          "out": 6627,
+          "cr": 229372,
+          "cw": 22326,
+          "total": 258343,
+          "usd": 0.2015,
+          "wall_s": 62.8,
+          "api_calls": 9
+        },
+        "/to-spec": {
+          "turns": [
+            4,
+            5
+          ],
+          "in": 12,
+          "out": 5218,
+          "cr": 195137,
+          "cw": 10113,
+          "total": 210480,
+          "usd": 0.1317,
+          "wall_s": 45.4,
+          "api_calls": 5
+        },
+        "/to-tickets": {
+          "turns": [
+            6,
+            7,
+            8
+          ],
+          "in": 16,
+          "out": 7288,
+          "cr": 356825,
+          "cw": 10505,
+          "total": 374634,
+          "usd": 0.1863,
+          "wall_s": 53.0,
+          "api_calls": 7
+        },
+        "/implement": {
+          "turns": [
+            9,
+            10
+          ],
+          "in": 92,
+          "out": 34442,
+          "cr": 2978947,
+          "cw": 104921,
+          "total": 3118402,
+          "usd": 1.2795,
+          "wall_s": 238.8,
+          "api_calls": 36
+        },
+        "/code-review": {
+          "turns": [
+            11,
+            12
+          ],
+          "in": 34,
+          "out": 7083,
+          "cr": 799509,
+          "cw": 55031,
+          "total": 861657,
+          "usd": 0.3835,
+          "wall_s": 43.1,
+          "api_calls": 6
+        }
+      }
+    },
+    {
+      "run": "f2-mp-r2",
+      "task": "F2",
+      "cfg": "mp",
+      "hidden_pass": 5,
+      "hidden_reqs": {
+        "test_req1": true,
+        "test_req2": true,
+        "test_req3": true,
+        "test_req4": true,
+        "test_req5": true
+      },
+      "suite_green": true,
+      "typecheck_green": true,
+      "code_diff_added": 440,
+      "code_diff_removed": 15,
+      "diff_added": 607,
+      "diff_removed": 18,
+      "tests_added_suite": 31,
+      "tokens": {
+        "in": 152,
+        "out": 53626,
+        "cr": 3976936,
+        "cw": 187047,
+        "total": 4217761
+      },
+      "usd": 1.9511,
+      "usd_po": 0.2073,
+      "wall_s": 399.4,
+      "driver_turns": 12,
+      "questions_routed_to_po": 6,
+      "end_reason": "done",
+      "caps": [],
+      "skills_invoked": [
+        "grilling",
+        "domain-modeling",
+        "tdd",
+        "code-review"
+      ],
+      "superpowers_injected": false,
+      "commits": 2,
+      "models": [
+        "claude-sonnet-5-5"
+      ],
+      "stages": {
+        "/grill-with-docs": {
+          "turns": [
+            1,
+            2,
+            3
+          ],
+          "in": 16,
+          "out": 5265,
+          "cr": 184055,
+          "cw": 18251,
+          "total": 207587,
+          "usd": 0.1625,
+          "wall_s": 50.6,
+          "api_calls": 8
+        },
+        "/to-spec": {
+          "turns": [
+            4,
+            5
+          ],
+          "in": 10,
+          "out": 3686,
+          "cr": 137547,
+          "cw": 8446,
+          "total": 149689,
+          "usd": 0.0982,
+          "wall_s": 29.8,
+          "api_calls": 4
+        },
+        "/to-tickets": {
+          "turns": [
+            6,
+            7
+          ],
+          "in": 8,
+          "out": 3017,
+          "cr": 124377,
+          "cw": 5341,
+          "total": 132743,
+          "usd": 0.0764,
+          "wall_s": 24.0,
+          "api_calls": 3
+        },
+        "/implement": {
+          "turns": [
+            8
+          ],
+          "in": 74,
+          "out": 28462,
+          "cr": 2129926,
+          "cw": 101278,
+          "total": 2259740,
+          "usd": 1.0391,
+          "wall_s": 197.9,
+          "api_calls": 27
+        },
+        "/code-review": {
+          "turns": [
+            9,
+            10,
+            11
+          ],
+          "in": 43,
+          "out": 11824,
+          "cr": 1288603,
+          "cw": 52118,
+          "total": 1352588,
+          "usd": 0.5323,
+          "wall_s": 84.6,
+          "api_calls": 11
+        },
+        "/pr": {
+          "turns": [
+            12
+          ],
+          "in": 1,
+          "out": 1372,
+          "cr": 112428,
+          "cw": 1613,
+          "total": 115414,
+          "usd": 0.0427,
+          "wall_s": 12.4,
+          "api_calls": 1
+        }
+      }
+    },
+    {
+      "run": "f2-spd-r1",
+      "task": "F2",
+      "cfg": "spd",
+      "hidden_pass": 5,
+      "hidden_reqs": {
+        "test_req1": true,
+        "test_req2": true,
+        "test_req3": true,
+        "test_req4": true,
+        "test_req5": true
+      },
+      "suite_green": true,
+      "typecheck_green": true,
+      "code_diff_added": 546,
+      "code_diff_removed": 14,
+      "diff_added": 856,
+      "diff_removed": 17,
+      "tests_added_suite": 46,
+      "tokens": {
+        "in": 380,
+        "out": 56881,
+        "cr": 5074733,
+        "cw": 178622,
+        "total": 5310616
+      },
+      "usd": 3.4244,
+      "usd_po": 0.09,
+      "wall_s": 506.3,
+      "driver_turns": 6,
+      "questions_routed_to_po": 3,
+      "end_reason": "done",
+      "caps": [],
+      "skills_invoked": [
+        "writing-plans",
+        "test-driven-development"
+      ],
+      "superpowers_injected": true,
+      "commits": 8,
+      "models": [
+        "claude-fable-5-1",
+        "claude-sonnet-5-5"
+      ],
+      "stages": {
+        "brainstorming": {
+          "turns": [
+            1,
+            2,
+            3
+          ],
+          "in": 18,
+          "out": 8103,
+          "cr": 280105,
+          "cw": 28324,
+          "total": 316550,
+          "usd": 0.2504,
+          "wall_s": 64.3,
+          "api_calls": 9
+        },
+        "writing-plans": {
+          "turns": [
+            3,
+            4,
+            5
+          ],
+          "in": 20,
+          "out": 13028,
+          "cr": 491569,
+          "cw": 24216,
+          "total": 528833,
+          "usd": 0.3255,
+          "wall_s": 89.2,
+          "api_calls": 9
+        },
+        "writing-plans [subagent]": {
+          "turns": [
+            4
+          ],
+          "in": 0,
+          "out": 0,
+          "cr": 0,
+          "cw": 0,
+          "total": 0,
+          "usd": 0.0,
+          "wall_s": 0.0,
+          "api_calls": 0
+        },
+        "executing-plans": {
+          "turns": [
+            6
+          ],
+          "in": 4,
+          "out": 291,
+          "cr": 65551,
+          "cw": 7617,
+          "total": 73463,
+          "usd": 0.0465,
+          "wall_s": 4.0,
+          "api_calls": 1
+        },
+        "test-driven-development": {
+          "turns": [
+            6
+          ],
+          "in": 80,
+          "out": 24030,
+          "cr": 3786616,
+          "cw": 42748,
+          "total": 3853474,
+          "usd": 1.1688,
+          "wall_s": 345.9,
+          "api_calls": 40
+        },
+        "test-driven-development [subagent]": {
+          "turns": [
+            6
+          ],
+          "in": 258,
+          "out": 11429,
+          "cr": 450892,
+          "cw": 75717,
+          "total": 538296,
+          "usd": 1.6332,
+          "wall_s": 0.0,
+          "api_calls": 0
+        }
+      }
+    },
+    {
+      "run": "f2-spd-r2",
+      "task": "F2",
+      "cfg": "spd",
+      "hidden_pass": 5,
+      "hidden_reqs": {
+        "test_req1": true,
+        "test_req2": true,
+        "test_req3": true,
+        "test_req4": true,
+        "test_req5": true
+      },
+      "suite_green": true,
+      "typecheck_green": true,
+      "code_diff_added": 401,
+      "code_diff_removed": 16,
+      "diff_added": 611,
+      "diff_removed": 17,
+      "tests_added_suite": 20,
+      "tokens": {
+        "in": 316,
+        "out": 56408,
+        "cr": 3456411,
+        "cw": 156979,
+        "total": 3670114
+      },
+      "usd": 3.0022,
+      "usd_po": 0.1126,
+      "wall_s": 517.1,
+      "driver_turns": 7,
+      "questions_routed_to_po": 4,
+      "end_reason": "done",
+      "caps": [],
+      "skills_invoked": [
+        "test-driven-development"
+      ],
+      "superpowers_injected": true,
+      "commits": 6,
+      "models": [
+        "claude-fable-5-1",
+        "claude-sonnet-5-5"
+      ],
+      "stages": {
+        "brainstorming": {
+          "turns": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "in": 12,
+          "out": 3973,
+          "cr": 164538,
+          "cw": 22707,
+          "total": 191230,
+          "usd": 0.1635,
+          "wall_s": 41.8,
+          "api_calls": 6
+        },
+        "brainstorming [subagent]": {
+          "turns": [
+            1,
+            3
+          ],
+          "in": 0,
+          "out": 0,
+          "cr": 0,
+          "cw": 0,
+          "total": 0,
+          "usd": 0.0,
+          "wall_s": 0.0,
+          "api_calls": 0
+        },
+        "writing-plans": {
+          "turns": [
+            5,
+            6
+          ],
+          "in": 12,
+          "out": 15091,
+          "cr": 228188,
+          "cw": 22849,
+          "total": 266140,
+          "usd": 0.288,
+          "wall_s": 92.3,
+          "api_calls": 5
+        },
+        "writing-plans [subagent]": {
+          "turns": [
+            6
+          ],
+          "in": 0,
+          "out": 0,
+          "cr": 0,
+          "cw": 0,
+          "total": 0,
+          "usd": 0.0,
+          "wall_s": 0.0,
+          "api_calls": 0
+        },
+        "executing-plans": {
+          "turns": [
+            7
+          ],
+          "in": 4,
+          "out": 282,
+          "cr": 58567,
+          "cw": 7630,
+          "total": 66483,
+          "usd": 0.0451,
+          "wall_s": 3.0,
+          "api_calls": 1
+        },
+        "test-driven-development": {
+          "turns": [
+            7
+          ],
+          "in": 62,
+          "out": 22457,
+          "cr": 2690340,
+          "cw": 43020,
+          "total": 2755879,
+          "usd": 0.9348,
+          "wall_s": 376.6,
+          "api_calls": 31
+        },
+        "test-driven-development [subagent]": {
+          "turns": [
+            7
+          ],
+          "in": 226,
+          "out": 14605,
+          "cr": 314778,
+          "cw": 60773,
+          "total": 390382,
+          "usd": 1.5709,
+          "wall_s": 0.0,
+          "api_calls": 0
+        }
+      }
+    },
+    {
+      "run": "mp-r1",
+      "task": "F1",
+      "cfg": "mp",
+      "hidden_pass": 5,
+      "hidden_reqs": {
+        "test_req1": true,
+        "test_req2": true,
+        "test_req3": true,
+        "test_req4": true,
+        "test_req5": true
+      },
+      "suite_green": true,
+      "typecheck_green": true,
+      "code_diff_added": 349,
+      "code_diff_removed": 20,
+      "diff_added": 524,
+      "diff_removed": 20,
+      "tests_added_suite": 29,
+      "tokens": {
+        "in": 181,
+        "out": 60902,
+        "cr": 4842442,
+        "cw": 194978,
+        "total": 5098503
+      },
+      "usd": 2.2217,
+      "usd_po": 0.2058,
+      "wall_s": 472.4,
+      "driver_turns": 12,
+      "questions_routed_to_po": 7,
+      "end_reason": "cap_driver_turns",
+      "caps": [
+        "driver_turns_12"
+      ],
+      "skills_invoked": [
+        "grilling",
+        "domain-modeling",
+        "tdd",
+        "code-review"
+      ],
+      "superpowers_injected": false,
+      "commits": 7,
+      "models": [
+        "claude-sonnet-5-5"
+      ],
+      "stages": {
+        "/grill-with-docs": {
+          "turns": [
+            1,
+            2,
+            3
+          ],
+          "in": 24,
+          "out": 6223,
+          "cr": 320351,
+          "cw": 22264,
+          "total": 348862,
+          "usd": 0.2154,
+          "wall_s": 59.9,
+          "api_calls": 12
+        },
+        "/to-spec": {
+          "turns": [
+            4,
+            5
+          ],
+          "in": 10,
+          "out": 4516,
+          "cr": 153800,
+          "cw": 9252,
+          "total": 167578,
+          "usd": 0.1129,
+          "wall_s": 37.6,
+          "api_calls": 4
+        },
+        "/to-tickets": {
+          "turns": [
+            6,
+            7,
+            8
+          ],
+          "in": 16,
+          "out": 7382,
+          "cr": 349965,
+          "cw": 10865,
+          "total": 368228,
+          "usd": 0.1873,
+          "wall_s": 55.8,
+          "api_calls": 7
+        },
+        "/implement": {
+          "turns": [
+            9,
+            10
+          ],
+          "in": 92,
+          "out": 32290,
+          "cr": 2890397,
+          "cw": 100256,
+          "total": 3023035,
+          "usd": 1.226,
+          "wall_s": 251.2,
+          "api_calls": 35
+        },
+        "/code-review": {
+          "turns": [
+            11,
+            12
+          ],
+          "in": 39,
+          "out": 10491,
+          "cr": 1127929,
+          "cw": 52341,
+          "total": 1190800,
+          "usd": 0.4801,
+          "wall_s": 67.9,
+          "api_calls": 9
+        }
+      }
+    },
+    {
+      "run": "mp-r2",
+      "task": "F1",
+      "cfg": "mp",
+      "hidden_pass": 5,
+      "hidden_reqs": {
+        "test_req1": true,
+        "test_req2": true,
+        "test_req3": true,
+        "test_req4": true,
+        "test_req5": true
+      },
+      "suite_green": true,
+      "typecheck_green": true,
+      "code_diff_added": 314,
+      "code_diff_removed": 15,
+      "diff_added": 527,
+      "diff_removed": 15,
+      "tests_added_suite": 25,
+      "tokens": {
+        "in": 154,
+        "out": 48104,
+        "cr": 3826019,
+        "cw": 168538,
+        "total": 4042815
+      },
+      "usd": 1.8045,
+      "usd_po": 0.1988,
+      "wall_s": 365.0,
+      "driver_turns": 12,
+      "questions_routed_to_po": 6,
+      "end_reason": "done",
+      "caps": [],
+      "skills_invoked": [
+        "grilling",
+        "domain-modeling",
+        "tdd",
+        "code-review"
+      ],
+      "superpowers_injected": false,
+      "commits": 7,
+      "models": [
+        "claude-sonnet-5-5"
+      ],
+      "stages": {
+        "/grill-with-docs": {
+          "turns": [
+            1,
+            2,
+            3
+          ],
+          "in": 16,
+          "out": 4727,
+          "cr": 187718,
+          "cw": 18567,
+          "total": 211028,
+          "usd": 0.1591,
+          "wall_s": 47.0,
+          "api_calls": 8
+        },
+        "/to-spec": {
+          "turns": [
+            4,
+            5
+          ],
+          "in": 10,
+          "out": 4965,
+          "cr": 136863,
+          "cw": 8781,
+          "total": 150619,
+          "usd": 0.1122,
+          "wall_s": 40.8,
+          "api_calls": 4
+        },
+        "/to-tickets": {
+          "turns": [
+            6,
+            7
+          ],
+          "in": 8,
+          "out": 4035,
+          "cr": 126982,
+          "cw": 6551,
+          "total": 137576,
+          "usd": 0.092,
+          "wall_s": 29.6,
+          "api_calls": 3
+        },
+        "/implement": {
+          "turns": [
+            8,
+            9
+          ],
+          "in": 78,
+          "out": 24215,
+          "cr": 2224544,
+          "cw": 81760,
+          "total": 2330597,
+          "usd": 0.9551,
+          "wall_s": 177.1,
+          "api_calls": 31
+        },
+        "/code-review": {
+          "turns": [
+            10,
+            11
+          ],
+          "in": 38,
+          "out": 8813,
+          "cr": 1047606,
+          "cw": 51098,
+          "total": 1107555,
+          "usd": 0.4451,
+          "wall_s": 58.9,
+          "api_calls": 10
+        },
+        "/pr": {
+          "turns": [
+            12
+          ],
+          "in": 4,
+          "out": 1349,
+          "cr": 102306,
+          "cw": 1781,
+          "total": 105440,
+          "usd": 0.0411,
+          "wall_s": 11.6,
+          "api_calls": 1
+        }
+      }
+    },
+    {
+      "run": "mp-r3",
+      "task": "F1",
+      "cfg": "mp",
+      "hidden_pass": 5,
+      "hidden_reqs": {
+        "test_req1": true,
+        "test_req2": true,
+        "test_req3": true,
+        "test_req4": true,
+        "test_req5": true
+      },
+      "suite_green": true,
+      "typecheck_green": true,
+      "code_diff_added": 395,
+      "code_diff_removed": 23,
+      "diff_added": 625,
+      "diff_removed": 23,
+      "tests_added_suite": 29,
+      "tokens": {
+        "in": 167,
+        "out": 61871,
+        "cr": 4014893,
+        "cw": 210062,
+        "total": 4286993
+      },
+      "usd": 2.1024,
+      "usd_po": 0.2105,
+      "wall_s": 479.7,
+      "driver_turns": 12,
+      "questions_routed_to_po": 8,
+      "end_reason": "cap_driver_turns",
+      "caps": [
+        "driver_turns_12"
+      ],
+      "skills_invoked": [
+        "grilling",
+        "domain-modeling",
+        "tdd",
+        "code-review"
+      ],
+      "superpowers_injected": false,
+      "commits": 5,
+      "models": [
+        "claude-sonnet-5-5"
+      ],
+      "stages": {
+        "/grill-with-docs": {
+          "turns": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "in": 26,
+          "out": 7047,
+          "cr": 358800,
+          "cw": 23759,
+          "total": 389632,
+          "usd": 0.2373,
+          "wall_s": 72.9,
+          "api_calls": 13
+        },
+        "/to-spec": {
+          "turns": [
+            5,
+            6
+          ],
+          "in": 10,
+          "out": 5923,
+          "cr": 156583,
+          "cw": 9319,
+          "total": 171835,
+          "usd": 0.1278,
+          "wall_s": 47.9,
+          "api_calls": 4
+        },
+        "/to-tickets": {
+          "turns": [
+            7,
+            8,
+            9
+          ],
+          "in": 9,
+          "out": 6185,
+          "cr": 252224,
+          "cw": 9644,
+          "total": 268062,
+          "usd": 0.1509,
+          "wall_s": 47.8,
+          "api_calls": 5
+        },
+        "/implement": {
+          "turns": [
+            10,
+            11
+          ],
+          "in": 82,
+          "out": 34139,
+          "cr": 2465960,
+          "cw": 112881,
+          "total": 2613062,
+          "usd": 1.1946,
+          "wall_s": 245.4,
+          "api_calls": 27
+        },
+        "/code-review": {
+          "turns": [
+            12
+          ],
+          "in": 40,
+          "out": 8577,
+          "cr": 781326,
+          "cw": 54459,
+          "total": 844402,
+          "usd": 0.3917,
+          "wall_s": 65.8,
+          "api_calls": 5
+        }
+      }
+    },
+    {
+      "run": "sp-r1",
+      "task": "F1",
+      "cfg": "sp",
+      "hidden_pass": 5,
+      "hidden_reqs": {
+        "test_req1": true,
+        "test_req2": true,
+        "test_req3": true,
+        "test_req4": true,
+        "test_req5": true
+      },
+      "suite_green": true,
+      "typecheck_green": true,
+      "code_diff_added": 182,
+      "code_diff_removed": 15,
+      "diff_added": 183,
+      "diff_removed": 16,
+      "tests_added_suite": 10,
+      "tokens": {
+        "in": 28,
+        "out": 14522,
+        "cr": 553287,
+        "cw": 45597,
+        "total": 613434
+      },
+      "usd": 0.4383,
+      "usd_po": 0.0424,
+      "wall_s": 99.4,
+      "driver_turns": 3,
+      "questions_routed_to_po": 2,
+      "end_reason": "done",
+      "caps": [],
+      "skills_invoked": [
+        "brainstorming"
+      ],
+      "superpowers_injected": true,
+      "commits": 1,
+      "models": [
+        "claude-sonnet-5-5"
+      ],
+      "stages": {
+        "(none)": {
+          "turns": [
+            1
+          ],
+          "in": 2,
+          "out": 209,
+          "cr": 13011,
+          "cw": 6298,
+          "total": 19520,
+          "usd": 0.0299,
+          "wall_s": 5.4,
+          "api_calls": 1
+        },
+        "brainstorming": {
+          "turns": [
+            1,
+            2
+          ],
+          "in": 14,
+          "out": 9666,
+          "cr": 212052,
+          "cw": 26168,
+          "total": 247900,
+          "usd": 0.2438,
+          "wall_s": 40.1,
+          "api_calls": 7
+        },
+        "implementation (no skill)": {
+          "turns": [
+            2,
+            3
+          ],
+          "in": 12,
+          "out": 4647,
+          "cr": 328224,
+          "cw": 13131,
+          "total": 346014,
+          "usd": 0.1647,
+          "wall_s": 52.8,
+          "api_calls": 6
+        },
+        "implementation (no skill) [subagent]": {
+          "turns": [
+            2
+          ],
+          "in": 0,
+          "out": 0,
+          "cr": 0,
+          "cw": 0,
+          "total": 0,
+          "usd": 0.0,
+          "wall_s": 0.0,
+          "api_calls": 0
+        }
+      }
+    },
+    {
+      "run": "sp-r2",
+      "task": "F1",
+      "cfg": "sp",
+      "hidden_pass": 5,
+      "hidden_reqs": {
+        "test_req1": true,
+        "test_req2": true,
+        "test_req3": true,
+        "test_req4": true,
+        "test_req5": true
+      },
+      "suite_green": true,
+      "typecheck_green": true,
+      "code_diff_added": 212,
+      "code_diff_removed": 15,
+      "diff_added": 216,
+      "diff_removed": 15,
+      "tests_added_suite": 13,
+      "tokens": {
+        "in": 32,
+        "out": 18160,
+        "cr": 691441,
+        "cw": 55475,
+        "total": 765108
+      },
+      "usd": 0.5419,
+      "usd_po": 0.0305,
+      "wall_s": 119.6,
+      "driver_turns": 2,
+      "questions_routed_to_po": 1,
+      "end_reason": "done",
+      "caps": [],
+      "skills_invoked": [
+        "brainstorming",
+        "test-driven-development"
+      ],
+      "superpowers_injected": true,
+      "commits": 0,
+      "models": [
+        "claude-sonnet-5-5"
+      ],
+      "stages": {
+        "(none)": {
+          "turns": [
+            1
+          ],
+          "in": 2,
+          "out": 227,
+          "cr": 13011,
+          "cw": 6298,
+          "total": 19538,
+          "usd": 0.0301,
+          "wall_s": 5.7,
+          "api_calls": 1
+        },
+        "brainstorming": {
+          "turns": [
+            1,
+            2
+          ],
+          "in": 10,
+          "out": 2311,
+          "cr": 133731,
+          "cw": 14200,
+          "total": 150252,
+          "usd": 0.1067,
+          "wall_s": 20.4,
+          "api_calls": 5
+        },
+        "test-driven-development": {
+          "turns": [
+            2
+          ],
+          "in": 20,
+          "out": 15622,
+          "cr": 544699,
+          "cw": 34977,
+          "total": 595318,
+          "usd": 0.4051,
+          "wall_s": 93.0,
+          "api_calls": 10
+        }
+      }
+    },
+    {
+      "run": "sp-r3",
+      "task": "F1",
+      "cfg": "sp",
+      "hidden_pass": 5,
+      "hidden_reqs": {
+        "test_req1": true,
+        "test_req2": true,
+        "test_req3": true,
+        "test_req4": true,
+        "test_req5": true
+      },
+      "suite_green": true,
+      "typecheck_green": true,
+      "code_diff_added": 267,
+      "code_diff_removed": 14,
+      "diff_added": 267,
+      "diff_removed": 14,
+      "tests_added_suite": 14,
+      "tokens": {
+        "in": 34,
+        "out": 17926,
+        "cr": 727283,
+        "cw": 50017,
+        "total": 795260
+      },
+      "usd": 0.5249,
+      "usd_po": 0.0489,
+      "wall_s": 135.3,
+      "driver_turns": 3,
+      "questions_routed_to_po": 2,
+      "end_reason": "done",
+      "caps": [],
+      "skills_invoked": [
+        "brainstorming"
+      ],
+      "superpowers_injected": true,
+      "commits": 1,
+      "models": [
+        "claude-sonnet-5-5"
+      ],
+      "stages": {
+        "(none)": {
+          "turns": [
+            1
+          ],
+          "in": 2,
+          "out": 278,
+          "cr": 13011,
+          "cw": 6298,
+          "total": 19589,
+          "usd": 0.0306,
+          "wall_s": 4.9,
+          "api_calls": 1
+        },
+        "brainstorming": {
+          "turns": [
+            1,
+            2
+          ],
+          "in": 18,
+          "out": 12135,
+          "cr": 306378,
+          "cw": 31097,
+          "total": 349628,
+          "usd": 0.307,
+          "wall_s": 61.1,
+          "api_calls": 9
+        },
+        "implementation (no skill)": {
+          "turns": [
+            2,
+            3
+          ],
+          "in": 14,
+          "out": 5513,
+          "cr": 407894,
+          "cw": 12622,
+          "total": 426043,
+          "usd": 0.1872,
+          "wall_s": 67.8,
+          "api_calls": 7
+        },
+        "implementation (no skill) [subagent]": {
+          "turns": [
+            2
+          ],
+          "in": 0,
+          "out": 0,
+          "cr": 0,
+          "cw": 0,
+          "total": 0,
+          "usd": 0.0,
+          "wall_s": 0.0,
+          "api_calls": 0
+        }
+      }
+    },
+    {
+      "run": "spd-r1",
+      "task": "F1",
+      "cfg": "spd",
+      "hidden_pass": 5,
+      "hidden_reqs": {
+        "test_req1": true,
+        "test_req2": true,
+        "test_req3": true,
+        "test_req4": true,
+        "test_req5": true
+      },
+      "suite_green": true,
+      "typecheck_green": true,
+      "code_diff_added": 350,
+      "code_diff_removed": 21,
+      "diff_added": 516,
+      "diff_removed": 21,
+      "tests_added_suite": 21,
+      "tokens": {
+        "in": 340,
+        "out": 59243,
+        "cr": 3428307,
+        "cw": 179396,
+        "total": 3667286
+      },
+      "usd": 3.4118,
+      "usd_po": 0.1084,
+      "wall_s": 600.8,
+      "driver_turns": 6,
+      "questions_routed_to_po": 3,
+      "end_reason": "done",
+      "caps": [],
+      "skills_invoked": [
+        "test-driven-development"
+      ],
+      "superpowers_injected": true,
+      "commits": 4,
+      "models": [
+        "claude-fable-5-1",
+        "claude-sonnet-5-5"
+      ],
+      "stages": {
+        "brainstorming": {
+          "turns": [
+            1,
+            2,
+            3
+          ],
+          "in": 14,
+          "out": 5191,
+          "cr": 198912,
+          "cw": 25310,
+          "total": 229427,
+          "usd": 0.193,
+          "wall_s": 49.8,
+          "api_calls": 7
+        },
+        "brainstorming [subagent]": {
+          "turns": [
+            2
+          ],
+          "in": 0,
+          "out": 0,
+          "cr": 0,
+          "cw": 0,
+          "total": 0,
+          "usd": 0.0,
+          "wall_s": 0.0,
+          "api_calls": 0
+        },
+        "writing-plans": {
+          "turns": [
+            4,
+            5
+          ],
+          "in": 12,
+          "out": 13010,
+          "cr": 243336,
+          "cw": 23856,
+          "total": 280214,
+          "usd": 0.2742,
+          "wall_s": 95.1,
+          "api_calls": 5
+        },
+        "executing-plans": {
+          "turns": [
+            6
+          ],
+          "in": 4,
+          "out": 614,
+          "cr": 62177,
+          "cw": 7788,
+          "total": 70583,
+          "usd": 0.0497,
+          "wall_s": 4.6,
+          "api_calls": 1
+        },
+        "test-driven-development": {
+          "turns": [
+            6
+          ],
+          "in": 52,
+          "out": 22476,
+          "cr": 2455319,
+          "cw": 43404,
+          "total": 2521251,
+          "usd": 0.8895,
+          "wall_s": 448.9,
+          "api_calls": 26
+        },
+        "test-driven-development [subagent]": {
+          "turns": [
+            6
+          ],
+          "in": 258,
+          "out": 17952,
+          "cr": 468563,
+          "cw": 79038,
+          "total": 565811,
+          "usd": 2.0053,
+          "wall_s": 0.0,
+          "api_calls": 0
+        }
+      }
+    },
+    {
+      "run": "spd-r2",
+      "task": "F1",
+      "cfg": "spd",
+      "hidden_pass": 5,
+      "hidden_reqs": {
+        "test_req1": true,
+        "test_req2": true,
+        "test_req3": true,
+        "test_req4": true,
+        "test_req5": true
+      },
+      "suite_green": true,
+      "typecheck_green": true,
+      "code_diff_added": 317,
+      "code_diff_removed": 16,
+      "diff_added": 527,
+      "diff_removed": 16,
+      "tests_added_suite": 36,
+      "tokens": {
+        "in": 354,
+        "out": 53270,
+        "cr": 3666473,
+        "cw": 166918,
+        "total": 3887015
+      },
+      "usd": 3.3947,
+      "usd_po": 0.1118,
+      "wall_s": 520.0,
+      "driver_turns": 7,
+      "questions_routed_to_po": 4,
+      "end_reason": "done",
+      "caps": [],
+      "skills_invoked": [
+        "test-driven-development"
+      ],
+      "superpowers_injected": true,
+      "commits": 5,
+      "models": [
+        "claude-fable-5-1",
+        "claude-sonnet-5-5"
+      ],
+      "stages": {
+        "brainstorming": {
+          "turns": [
+            1,
+            2,
+            3
+          ],
+          "in": 10,
+          "out": 3724,
+          "cr": 134220,
+          "cw": 22880,
+          "total": 160834,
+          "usd": 0.1556,
+          "wall_s": 33.6,
+          "api_calls": 5
+        },
+        "writing-plans": {
+          "turns": [
+            4,
+            5,
+            6
+          ],
+          "in": 14,
+          "out": 8546,
+          "cr": 271872,
+          "cw": 17835,
+          "total": 298267,
+          "usd": 0.2112,
+          "wall_s": 63.9,
+          "api_calls": 6
+        },
+        "writing-plans [subagent]": {
+          "turns": [
+            6
+          ],
+          "in": 0,
+          "out": 0,
+          "cr": 0,
+          "cw": 0,
+          "total": 0,
+          "usd": 0.0,
+          "wall_s": 0.0,
+          "api_calls": 0
+        },
+        "executing-plans": {
+          "turns": [
+            7
+          ],
+          "in": 4,
+          "out": 385,
+          "cr": 53726,
+          "cw": 7377,
+          "total": 61492,
+          "usd": 0.0441,
+          "wall_s": 3.7,
+          "api_calls": 1
+        },
+        "test-driven-development": {
+          "turns": [
+            7
+          ],
+          "in": 68,
+          "out": 21023,
+          "cr": 2791978,
+          "cw": 41898,
+          "total": 2854967,
+          "usd": 0.9364,
+          "wall_s": 415.1,
+          "api_calls": 34
+        },
+        "test-driven-development [subagent]": {
+          "turns": [
+            7
+          ],
+          "in": 258,
+          "out": 19592,
+          "cr": 414677,
+          "cw": 76928,
+          "total": 511455,
+          "usd": 2.0474,
+          "wall_s": 0.0,
+          "api_calls": 0
+        }
+      }
+    },
+    {
+      "run": "spd-r3",
+      "task": "F1",
+      "cfg": "spd",
+      "hidden_pass": 5,
+      "hidden_reqs": {
+        "test_req1": true,
+        "test_req2": true,
+        "test_req3": true,
+        "test_req4": true,
+        "test_req5": true
+      },
+      "suite_green": true,
+      "typecheck_green": true,
+      "code_diff_added": 434,
+      "code_diff_removed": 20,
+      "diff_added": 646,
+      "diff_removed": 20,
+      "tests_added_suite": 26,
+      "tokens": {
+        "in": 504,
+        "out": 72541,
+        "cr": 5615970,
+        "cw": 196313,
+        "total": 5885328
+      },
+      "usd": 4.4087,
+      "usd_po": 0.1286,
+      "wall_s": 701.3,
+      "driver_turns": 8,
+      "questions_routed_to_po": 5,
+      "end_reason": "done",
+      "caps": [],
+      "skills_invoked": [
+        "test-driven-development",
+        "finishing-a-development-branch"
+      ],
+      "superpowers_injected": true,
+      "commits": 6,
+      "models": [
+        "claude-fable-5-1",
+        "claude-sonnet-5-5"
+      ],
+      "stages": {
+        "brainstorming": {
+          "turns": [
+            1,
+            2,
+            3
+          ],
+          "in": 10,
+          "out": 3567,
+          "cr": 130512,
+          "cw": 21715,
+          "total": 155804,
+          "usd": 0.1487,
+          "wall_s": 33.0,
+          "api_calls": 5
+        },
+        "writing-plans": {
+          "turns": [
+            4,
+            5,
+            6
+          ],
+          "in": 16,
+          "out": 13925,
+          "cr": 345667,
+          "cw": 25975,
+          "total": 385583,
+          "usd": 0.3123,
+          "wall_s": 101.2,
+          "api_calls": 7
+        },
+        "writing-plans [subagent]": {
+          "turns": [
+            5,
+            6
+          ],
+          "in": 0,
+          "out": 0,
+          "cr": 0,
+          "cw": 0,
+          "total": 0,
+          "usd": 0.0,
+          "wall_s": 0.0,
+          "api_calls": 0
+        },
+        "executing-plans": {
+          "turns": [
+            7
+          ],
+          "in": 4,
+          "out": 516,
+          "cr": 60701,
+          "cw": 7518,
+          "total": 68739,
+          "usd": 0.0474,
+          "wall_s": 5.5,
+          "api_calls": 1
+        },
+        "test-driven-development": {
+          "turns": [
+            7
+          ],
+          "in": 72,
+          "out": 24026,
+          "cr": 3334129,
+          "cw": 46850,
+          "total": 3405077,
+          "usd": 1.0946,
+          "wall_s": 507.1,
+          "api_calls": 36
+        },
+        "finishing-a-development-branch": {
+          "turns": [
+            7,
+            8
+          ],
+          "in": 16,
+          "out": 5297,
+          "cr": 962018,
+          "cw": 9174,
+          "total": 976505,
+          "usd": 0.2821,
+          "wall_s": 50.7,
+          "api_calls": 8
+        },
+        "test-driven-development [subagent]": {
+          "turns": [
+            7
+          ],
+          "in": 386,
+          "out": 25210,
+          "cr": 782943,
+          "cw": 85081,
+          "total": 893620,
+          "usd": 2.5236,
+          "wall_s": 0.0,
+          "api_calls": 0
+        },
+        "finishing-a-development-branch [subagent]": {
+          "turns": [
+            8
+          ],
+          "in": 0,
+          "out": 0,
+          "cr": 0,
+          "cw": 0,
+          "total": 0,
+          "usd": 0.0,
+          "wall_s": 0.0,
+          "api_calls": 0
+        }
+      }
+    }
+  ]
+}

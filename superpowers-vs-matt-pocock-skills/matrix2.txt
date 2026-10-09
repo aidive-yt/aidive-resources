@@ -1,0 +1,20 @@
+# <cfg> <rep> <task>; 2 lanes; long runs interleaved with short ones
+spd 1 F1
+mp 1 F1
+bare 1 F1
+sp 1 F1
+spd 1 F2
+mp 1 F2
+bare 1 F2
+spd 2 F1
+mp 2 F1
+bare 2 F1
+sp 2 F1
+spd 2 F2
+mp 2 F2
+bare 2 F2
+both 1 F1
+spd 3 F1
+mp 3 F1
+bare 3 F1
+sp 3 F1

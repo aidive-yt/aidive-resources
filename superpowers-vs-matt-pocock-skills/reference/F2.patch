@@ -1,0 +1,332 @@
+diff --git a/src/domain/credit-note.ts b/src/domain/credit-note.ts
+new file mode 100644
+index 0000000..7504c53
+--- /dev/null
++++ b/src/domain/credit-note.ts
+@@ -0,0 +1,44 @@
++import { ConflictError, ValidationError } from "./errors";
++import { computeTotals, type Invoice } from "./invoice";
++import { assertCents, type Cents, sum } from "./money";
++
++/** A numbered accounting document that reduces what is owed on an issued invoice. Never edited or deleted. */
++export type CreditNote = {
++  id: string;
++  /** CN-0001, ... gapless, in the order credit notes are created. */
++  number: string;
++  invoiceId: string;
++  amount: Cents;
++  createdAt: string;
++};
++
++export function creditedAmount(notes: Pick<CreditNote, "amount">[]): Cents {
++  return sum(notes.map((n) => n.amount));
++}
++
++/** What can still be credited on an invoice: its total minus every credit note already issued against it. */
++export function creditable(invoice: Invoice, notes: Pick<CreditNote, "amount">[]): Cents {
++  return computeTotals(invoice).total - creditedAmount(notes);
++}
++
++export function parseCreditAmount(body: unknown): Cents {
++  if (typeof body !== "object" || body === null) {
++    throw new ValidationError("body must be an object");
++  }
++  return assertCents((body as Record<string, unknown>).amount, "amount", { min: 1 });
++}
++
++/** Throws unless `amount` can be credited on `invoice` now. Call it BEFORE taking a number. */
++export function assertCreditable(invoice: Invoice, notes: Pick<CreditNote, "amount">[], amount: Cents): void {
++  if (invoice.status !== "open" && invoice.status !== "paid") {
++    throw new ConflictError(`invoice ${invoice.id} is ${invoice.status}: only open or paid invoices can be credited`);
++  }
++  const left = creditable(invoice, notes);
++  if (amount > left) {
++    throw new ValidationError(`amount ${amount} exceeds what is left to credit (${left})`, "amount");
++  }
++}
++
++export function creditNoteNumber(n: number): string {
++  return `CN-${String(n).padStart(4, "0")}`;
++}
+diff --git a/src/domain/invoice.ts b/src/domain/invoice.ts
+index 5b69fc9..2ee6fa4 100644
+--- a/src/domain/invoice.ts
++++ b/src/domain/invoice.ts
+@@ -52,8 +52,9 @@ export function markPaid(invoice: Invoice, now: Date): Invoice {
+   return { ...invoice, status: "paid", paidAt: now.toISOString() };
+ }
+ 
++/** Voids a draft, open or paid invoice. A paid one must be fully credited first (the handler issues that credit note). */
+ export function voidInvoice(invoice: Invoice, now: Date): Invoice {
+-  if (invoice.status === "paid" || invoice.status === "void") {
++  if (invoice.status === "void") {
+     throw new ConflictError(`invoice ${invoice.id} is ${invoice.status} and cannot be voided`);
+   }
+   return { ...invoice, status: "void", voidedAt: now.toISOString() };
+diff --git a/src/http/context.ts b/src/http/context.ts
+index c0a89d3..003b7af 100644
+--- a/src/http/context.ts
++++ b/src/http/context.ts
+@@ -1,4 +1,5 @@
+ import type { Store } from "../store/json-store";
++import { creditNoteRepo } from "../store/credit-note-repo";
+ import { customerRepo } from "../store/customer-repo";
+ import { invoiceRepo } from "../store/invoice-repo";
+ 
+@@ -7,8 +8,9 @@ export type AppContext = {
+   now: () => Date;
+   customers: ReturnType<typeof customerRepo>;
+   invoices: ReturnType<typeof invoiceRepo>;
++  creditNotes: ReturnType<typeof creditNoteRepo>;
+ };
+ 
+ export function createContext(store: Store, now: () => Date = () => new Date()): AppContext {
+-  return { store, now, customers: customerRepo(store), invoices: invoiceRepo(store) };
++  return { store, now, customers: customerRepo(store), invoices: invoiceRepo(store), creditNotes: creditNoteRepo(store) };
+ }
+diff --git a/src/http/handlers/invoices.ts b/src/http/handlers/invoices.ts
+index 09959e1..469a402 100644
+--- a/src/http/handlers/invoices.ts
++++ b/src/http/handlers/invoices.ts
+@@ -1,3 +1,4 @@
++import { assertCreditable, type CreditNote, creditNoteNumber, creditable, parseCreditAmount } from "../../domain/credit-note";
+ import { ValidationError } from "../../domain/errors";
+ import { type Invoice, type InvoiceStatus, issue, markPaid, voidInvoice } from "../../domain/invoice";
+ import { parseNewInvoice } from "../../domain/validation";
+@@ -51,8 +52,37 @@ export function invoiceRoutes(router: Router, ctx: AppContext): void {
+     return { status: 200, body: invoiceView(ctx.invoices.save(paid)) };
+   });
+ 
++  /** Validation first, number last: a rejected credit note never consumes a CN number (numbers stay gapless). */
++  function credit(invoice: Invoice, amount: number): CreditNote {
++    assertCreditable(invoice, ctx.creditNotes.forInvoice(invoice.id), amount);
++    const n = ctx.store.nextId("creditNote");
++    return ctx.creditNotes.insert({
++      id: `cn_${n}`,
++      number: creditNoteNumber(n),
++      invoiceId: invoice.id,
++      amount,
++      createdAt: ctx.now().toISOString(),
++    });
++  }
++
++  router.on("POST", "/invoices/:id/credit-notes", ({ params, body }) => {
++    const invoice = ctx.invoices.get(params.id);
++    return { status: 201, body: credit(invoice, parseCreditAmount(body)) };
++  });
++
++  router.on("GET", "/invoices/:id/credit-notes", ({ params }) => {
++    ctx.invoices.get(params.id);
++    return { status: 200, body: ctx.creditNotes.forInvoice(params.id) };
++  });
++
++  /** Voiding a paid invoice credits whatever is left on it first. */
+   router.on("POST", "/invoices/:id/void", ({ params }) => {
+-    const voided = voidInvoice(ctx.invoices.get(params.id), ctx.now());
++    const invoice = ctx.invoices.get(params.id);
++    const voided = voidInvoice(invoice, ctx.now());
++    if (invoice.status === "paid") {
++      const left = creditable(invoice, ctx.creditNotes.forInvoice(invoice.id));
++      if (left > 0) credit(invoice, left);
++    }
+     return { status: 200, body: invoiceView(ctx.invoices.save(voided)) };
+   });
+ }
+diff --git a/src/http/handlers/reports.ts b/src/http/handlers/reports.ts
+index 19262c9..f980c9b 100644
+--- a/src/http/handlers/reports.ts
++++ b/src/http/handlers/reports.ts
+@@ -1,4 +1,5 @@
+-import { computeTotals, isOverdue } from "../../domain/invoice";
++import { creditable } from "../../domain/credit-note";
++import { isOverdue } from "../../domain/invoice";
+ import type { Currency } from "../../domain/money";
+ import type { AppContext } from "../context";
+ import type { Router } from "../router";
+@@ -11,8 +12,8 @@ export function reportRoutes(router: Router, ctx: AppContext): void {
+     let count = 0;
+     let overdue = 0;
+     for (const invoice of ctx.invoices.list({ status: "open" })) {
+-      const { total } = computeTotals(invoice);
+-      totals[invoice.currency] = (totals[invoice.currency] ?? 0) + total;
++      const owed = creditable(invoice, ctx.creditNotes.forInvoice(invoice.id));
++      totals[invoice.currency] = (totals[invoice.currency] ?? 0) + owed;
+       count += 1;
+       if (isOverdue(invoice, now)) overdue += 1;
+     }
+diff --git a/src/store/credit-note-repo.ts b/src/store/credit-note-repo.ts
+new file mode 100644
+index 0000000..eac6632
+--- /dev/null
++++ b/src/store/credit-note-repo.ts
+@@ -0,0 +1,17 @@
++import type { CreditNote } from "../domain/credit-note";
++import type { Store } from "./json-store";
++
++export function creditNoteRepo(store: Store) {
++  return {
++    forInvoice(invoiceId: string): CreditNote[] {
++      return store.read().creditNotes.filter((n) => n.invoiceId === invoiceId);
++    },
++    all(): CreditNote[] {
++      return store.read().creditNotes;
++    },
++    insert(note: CreditNote): CreditNote {
++      store.update((d) => ({ ...d, creditNotes: [...d.creditNotes, note] }));
++      return note;
++    },
++  };
++}
+diff --git a/src/store/json-store.ts b/src/store/json-store.ts
+index b404c51..99205b7 100644
+--- a/src/store/json-store.ts
++++ b/src/store/json-store.ts
+@@ -13,9 +13,10 @@ export type Store = {
+ function empty(): StoreData {
+   return {
+     schemaVersion: CURRENT_SCHEMA_VERSION,
+-    counters: { customer: 0, invoice: 0, invoiceNumber: 0 },
++    counters: { customer: 0, invoice: 0, invoiceNumber: 0, creditNote: 0 },
+     customers: [],
+     invoices: [],
++    creditNotes: [],
+   };
+ }
+ 
+diff --git a/src/store/migrations.ts b/src/store/migrations.ts
+index c8b73a9..eb7abfb 100644
+--- a/src/store/migrations.ts
++++ b/src/store/migrations.ts
+@@ -1,6 +1,6 @@
+ import type { StoreData } from "./types";
+ 
+-export const CURRENT_SCHEMA_VERSION = 1;
++export const CURRENT_SCHEMA_VERSION = 2;
+ 
+ type RawData = Record<string, unknown> & { schemaVersion?: number };
+ type Migration = (data: RawData) => RawData;
+@@ -21,9 +21,18 @@ const v0ToV1: Migration = (data) => {
+   };
+ };
+ 
++/** v1 -> v2: credit notes (a collection and their own counter). */
++const v1ToV2: Migration = (data) => ({
++  ...data,
++  schemaVersion: 2,
++  counters: { ...(data.counters as Record<string, number> | undefined), creditNote: 0 },
++  creditNotes: [],
++});
++
+ /** migrations[n] upgrades a file from version n to n + 1. */
+ const migrations: Record<number, Migration> = {
+   0: v0ToV1,
++  1: v1ToV2,
+ };
+ 
+ export function migrate(raw: unknown): StoreData {
+@@ -43,8 +52,9 @@ export function migrate(raw: unknown): StoreData {
+   }
+   return {
+     schemaVersion: CURRENT_SCHEMA_VERSION,
+-    counters: (data.counters as StoreData["counters"]) ?? { customer: 0, invoice: 0, invoiceNumber: 0 },
++    counters: { customer: 0, invoice: 0, invoiceNumber: 0, creditNote: 0, ...(data.counters as Partial<StoreData["counters"]>) },
+     customers: (data.customers as StoreData["customers"]) ?? [],
+     invoices: (data.invoices as StoreData["invoices"]) ?? [],
++    creditNotes: (data.creditNotes as StoreData["creditNotes"]) ?? [],
+   };
+ }
+diff --git a/src/store/types.ts b/src/store/types.ts
+index 222b191..a9d7277 100644
+--- a/src/store/types.ts
++++ b/src/store/types.ts
+@@ -1,7 +1,8 @@
++import type { CreditNote } from "../domain/credit-note";
+ import type { Customer } from "../domain/customer";
+ import type { Invoice } from "../domain/invoice";
+ 
+-export type Counters = { customer: number; invoice: number; invoiceNumber: number };
++export type Counters = { customer: number; invoice: number; invoiceNumber: number; creditNote: number };
+ 
+ /** The shape of the JSON file at CURRENT_SCHEMA_VERSION. */
+ export type StoreData = {
+@@ -9,4 +10,5 @@ export type StoreData = {
+   counters: Counters;
+   customers: Customer[];
+   invoices: Invoice[];
++  creditNotes: CreditNote[];
+ };
+diff --git a/test/credit-notes.test.ts b/test/credit-notes.test.ts
+new file mode 100644
+index 0000000..240f820
+--- /dev/null
++++ b/test/credit-notes.test.ts
+@@ -0,0 +1,52 @@
++import { mkdtempSync, writeFileSync } from "node:fs";
++import { tmpdir } from "node:os";
++import { join } from "node:path";
++import { describe, expect, it } from "vitest";
++import { openStore } from "../src/store/json-store";
++import { seedCustomer, seedOpenInvoice, testApp } from "./helpers";
++
++describe("credit notes", () => {
++  it("numbers credit notes gaplessly; rejected ones take no number", async () => {
++    const app = testApp();
++    const id = await seedOpenInvoice(app, { customerId: await seedCustomer(app), unitPrice: 10_000 });
++    expect((await app.handle("POST", `/invoices/${id}/credit-notes`, { amount: 3_000 })).body).toMatchObject({ number: "CN-0001" });
++    expect((await app.handle("POST", `/invoices/${id}/credit-notes`, { amount: 7_001 })).status).toBe(400);
++    expect((await app.handle("POST", `/invoices/${id}/credit-notes`, { amount: 0 })).status).toBe(400);
++    expect((await app.handle("POST", `/invoices/${id}/credit-notes`, { amount: 7_000 })).body).toMatchObject({ number: "CN-0002" });
++    expect(((await app.handle("GET", `/invoices/${id}/credit-notes`)).body as unknown[]).length).toBe(2);
++  });
++
++  it("refuses drafts and void invoices (409) and unknown ones (404)", async () => {
++    const app = testApp();
++    const customerId = await seedCustomer(app);
++    const draft = await app.handle("POST", "/invoices", { customerId, currency: "EUR", lines: [{ description: "x", quantity: 1, unitPrice: 100 }] });
++    expect((await app.handle("POST", `/invoices/${(draft.body as { id: string }).id}/credit-notes`, { amount: 10 })).status).toBe(409);
++    expect((await app.handle("POST", "/invoices/inv_404/credit-notes", { amount: 10 })).status).toBe(404);
++  });
++
++  it("voids a paid invoice by crediting what is left", async () => {
++    const app = testApp();
++    const id = await seedOpenInvoice(app, { customerId: await seedCustomer(app), unitPrice: 10_000 });
++    await app.handle("POST", `/invoices/${id}/pay`);
++    await app.handle("POST", `/invoices/${id}/credit-notes`, { amount: 2_500 });
++    expect((await app.handle("POST", `/invoices/${id}/void`)).body).toMatchObject({ status: "void" });
++    const notes = (await app.handle("GET", `/invoices/${id}/credit-notes`)).body as { amount: number }[];
++    expect(notes.map((n) => n.amount)).toEqual([2_500, 7_500]);
++  });
++
++  it("nets credit notes out of the outstanding report", async () => {
++    const app = testApp();
++    const id = await seedOpenInvoice(app, { customerId: await seedCustomer(app), unitPrice: 10_000 });
++    await app.handle("POST", `/invoices/${id}/credit-notes`, { amount: 4_000 });
++    expect((await app.handle("GET", "/reports/outstanding")).body).toMatchObject({ totals: { EUR: 6_000 }, count: 1 });
++  });
++
++  it("works on a store file written before credit notes existed", async () => {
++    const file = join(mkdtempSync(join(tmpdir(), "ledgerly-")), "data.json");
++    writeFileSync(file, JSON.stringify({ schemaVersion: 1, counters: { customer: 0, invoice: 0, invoiceNumber: 0 }, customers: [], invoices: [] }));
++    const app = testApp(openStore({ file }));
++    const id = await seedOpenInvoice(app, { customerId: await seedCustomer(app) });
++    expect((await app.handle("POST", `/invoices/${id}/credit-notes`, { amount: 100 })).body).toMatchObject({ id: "cn_1", number: "CN-0001" });
++    expect(openStore({ file }).read().creditNotes.length).toBe(1);
++  });
++});
+diff --git a/test/invoice.test.ts b/test/invoice.test.ts
+index 85202f2..4219226 100644
+--- a/test/invoice.test.ts
++++ b/test/invoice.test.ts
+@@ -54,8 +54,11 @@ describe("invoice domain", () => {
+   });
+ 
+   it("voids drafts and open invoices, never paid ones", () => {
++    // Meaning changed with credit notes: a paid invoice can now be voided (the handler credits what is left first);
++    // only an already void invoice is refused.
+     expect(voidInvoice(draft(), NOW).status).toBe("void");
+-    expect(() => voidInvoice(draft({ status: "paid" }), NOW)).toThrow(ConflictError);
++    expect(voidInvoice(draft({ status: "paid" }), NOW).status).toBe("void");
++    expect(() => voidInvoice(draft({ status: "void" }), NOW)).toThrow(ConflictError);
+   });
+ 
+   it("knows when an open invoice is overdue", () => {

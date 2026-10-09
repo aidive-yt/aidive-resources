@@ -1,0 +1,11 @@
+# <cfg> <rep>, run 2 at a time in this order (rep 1 of every config first)
+bare 1
+sp 1
+mp 1
+both 1
+sp 2
+mp 2
+bare 2
+mp 3
+sp 3
+bare 3

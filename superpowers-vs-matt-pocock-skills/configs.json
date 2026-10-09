@@ -1,0 +1,32 @@
+{
+  "bare": {
+    "superpowers": false,
+    "mattpocock": false,
+    "flow": "bare",
+    "desc": "no skills, no hooks (project settings carry only the permission deny-list)"
+  },
+  "sp": {
+    "superpowers": true,
+    "mattpocock": false,
+    "flow": "sp",
+    "desc": "HOOK-ROUTED: obra/superpowers v6.4.2: skills in .claude/skills, SessionStart hook in .claude/settings.json as hooks/hooks.json wires it; turn 1 = the bare task, the hook decides"
+  },
+  "mp": {
+    "superpowers": false,
+    "mattpocock": true,
+    "flow": "mp",
+    "desc": "mattpocock/skills v1.3.1 via npx skills add (27 promoted skills, copied), setup-matt-pocock-skills output committed (local tracker)"
+  },
+  "both": {
+    "superpowers": true,
+    "mattpocock": true,
+    "flow": "mp",
+    "desc": "sp + mp in one project; driven with the mp slash-command flow (the stacking question: does the Superpowers hook hijack it?)"
+  },
+  "spd": {
+    "superpowers": true,
+    "mattpocock": false,
+    "flow": "spd",
+    "desc": "Superpowers, DRIVEN: same project install as sp (hook included); the driver types /brainstorming <task> -> /writing-plans -> /executing-plans (Native/inline); the pack's own scripts allowed in Bash"
+  }
+}
