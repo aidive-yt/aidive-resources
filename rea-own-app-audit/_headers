@@ -1,0 +1,12 @@
+# Security headers for every static asset (Cloudflare Workers static assets).
+# They do not cover responses the Worker builds itself (/api/subscribe).
+# script-src needs 'unsafe-inline': the static export inlines Next's RSC payload
+# scripts, and a static site cannot send per-request nonces.
+# www.youtube.com: the iframe API and the embedded player (video pages).
+# static.cloudflareinsights.com / cloudflareinsights.com: the Web Analytics
+# beacon that Cloudflare injects from the dashboard setting (audit F13).
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.youtube.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://cloudflareinsights.com; frame-src https://www.youtube.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Strict-Transport-Security: max-age=31536000

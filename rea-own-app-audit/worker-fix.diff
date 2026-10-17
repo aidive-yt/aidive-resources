@@ -1,0 +1,103 @@
+diff --git a/engine/site/worker/index.ts b/engine/site/worker/index.ts
+index 994f12fc..e68444e7 100644
+--- a/engine/site/worker/index.ts
++++ b/engine/site/worker/index.ts
+@@ -1,13 +1,19 @@
+ import { DISPOSABLE } from './disposable-domains';
+ 
+ // Minimal local Workers types: no @cloudflare/workers-types dependency.
+-type Env = {
++type RateLimiter = { limit: (options: { key: string }) => Promise<{ success: boolean }> };
++
++export type Env = {
+   ASSETS: { fetch: (req: Request) => Promise<Response> };
+   BREVO_API_KEY: string;
+   BREVO_LIST_ID: string;
++  // The only origin allowed to POST to /api/subscribe, e.g. "https://example.com".
++  SITE_ORIGIN: string;
++  // 5 requests per 60 s per client IP (wrangler `ratelimits`).
++  SUBSCRIBE_LIMITER: RateLimiter;
+ };
+ 
+-type SubscribeBody = { email?: string; lang?: string; source?: string };
++type SubscribeBody = { email?: unknown; lang?: unknown; source?: unknown; consent?: unknown };
+ 
+ const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+ 
+@@ -20,6 +26,12 @@ const worker = {
+     const url = new URL(request.url);
+     if (url.pathname !== '/api/subscribe') return env.ASSETS.fetch(request);
+     if (request.method !== 'POST') return new Response(null, { status: 405 });
++    // Browsers always send Origin on a POST: this stops other sites from making
++    // their visitors subscribe addresses. A script can forge it; the rate limit is for that.
++    if (!env.SITE_ORIGIN || request.headers.get('origin') !== env.SITE_ORIGIN) return json(403, { error: 'origin' });
++    const ip = request.headers.get('cf-connecting-ip') ?? 'unknown';
++    const { success } = await env.SUBSCRIBE_LIMITER.limit({ key: ip });
++    if (!success) return json(429, { error: 'rate' });
+     // No list id means the club is off for this channel.
+     if (!env.BREVO_LIST_ID) return json(503, { error: 'disabled' });
+     let body: SubscribeBody;
+@@ -30,6 +42,8 @@ const worker = {
+     } catch {
+       return json(400, { error: 'invalid' });
+     }
++    // The form's checkbox must be ticked: only a literal `true` counts as consent.
++    if (body.consent !== true) return json(400, { error: 'consent' });
+     const email = (typeof body.email === 'string' ? body.email : '').trim().toLowerCase();
+     const source = typeof body.source === 'string' ? body.source : '';
+     if (!EMAIL.test(email)) return json(400, { error: 'invalid' });
+@@ -37,14 +51,14 @@ const worker = {
+     const lang = typeof body.lang === 'string' && /^[a-z]{2}(-[A-Za-z]{2,4})?$/.test(body.lang) ? body.lang : 'en';
+     let res: Response;
+     try {
++      // No updateEnabled: a request can create a contact, never rewrite an existing one.
+       res = await fetch('https://api.brevo.com/v3/contacts', {
+         method: 'POST',
+         headers: { 'api-key': env.BREVO_API_KEY, 'content-type': 'application/json', accept: 'application/json' },
+         body: JSON.stringify({
+           email,
+           listIds: [Number(env.BREVO_LIST_ID)],
+-          updateEnabled: true,
+-          attributes: { LANG: lang, SOURCE: source.slice(0, 120) },
++          attributes: { LANG: lang, SOURCE: source.slice(0, 120), CONSENT_AT: new Date().toISOString() },
+         }),
+         signal: AbortSignal.timeout(5000),
+       });
+@@ -52,12 +66,14 @@ const worker = {
+       console.error('brevo fetch', err);
+       return json(502, { error: 'upstream' });
+     }
+-    // 201 created, 204 updated; anything else is Brevo's problem, logged for the dashboard.
+-    if (res.status !== 201 && res.status !== 204) {
+-      console.error('brevo', res.status, await res.text());
+-      return json(502, { error: 'upstream' });
+-    }
+-    return new Response(null, { status: 204 });
++    // 201 created. An existing contact answers 400 duplicate_parameter: it is left
++    // untouched and the visitor gets the same 204, so the answer never tells whether
++    // an address is already on the list.
++    if (res.status === 201) return new Response(null, { status: 204 });
++    const detail = await res.text();
++    if (res.status === 400 && detail.includes('duplicate_parameter')) return new Response(null, { status: 204 });
++    console.error('brevo', res.status, detail);
++    return json(502, { error: 'upstream' });
+   },
+ };
+ 
+diff --git a/engine/site/wrangler.template.jsonc b/engine/site/wrangler.template.jsonc
+index e132f254..b007fd8e 100644
+--- a/engine/site/wrangler.template.jsonc
++++ b/engine/site/wrangler.template.jsonc
+@@ -3,7 +3,11 @@
+   "main": "worker/index.ts",
+   "compatibility_date": "2026-08-13",
+   "compatibility_flags": ["nodejs_compat"],
+-  "vars": { "BREVO_LIST_ID": "{{brevoListId}}" },
++  "vars": { "BREVO_LIST_ID": "{{brevoListId}}", "SITE_ORIGIN": "{{origin}}" },
++  // /api/subscribe: 5 requests per 60 s per client IP, 429 above. The counter is
++  // per Cloudflare location and eventually consistent. namespace_id is unique to
++  // this limiter in the account.
++  "ratelimits": [{ "name": "SUBSCRIBE_LIMITER", "namespace_id": "1001", "simple": { "limit": 5, "period": 60 } }],
+   "assets": {
+     "directory": "./out/",
+     "binding": "ASSETS",
