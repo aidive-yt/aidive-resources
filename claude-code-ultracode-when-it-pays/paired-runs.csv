@@ -1,0 +1,18 @@
+source_id,run,measure,baseline,workflow_or_fanout,note
+s22,rebuild-your-claude-md pair (rep 2),tokens,181646,1326703,"all four usage fields summed, 14 agent transcripts on the workflow side"
+s22,rebuild-your-claude-md pair (rep 2),API cost in USD,0.2678,1.3744,single agent vs workflow
+s22,rebuild-your-claude-md pair (rep 2),wall time in seconds,43,80,single agent vs workflow
+s22,rebuild-your-claude-md pair (rep 2),session meter points,+0,+12,"/usage before to after: 17% to 17% vs 19% to 31%"
+s24,70 planted bugs in 116k lines,bugs found,"14, 15 and 27 (3 runs)","66 in each of 3 runs","Managed Agents, not Claude Code; no cost given"
+s19,Bun port from Zig to Rust,test suite passing,,100%,"about 50 dynamic workflows, 11 days, 535,496 lines of Zig"
+s6,fixed worker and gate files,tokens for workflow execution and monitoring,100%,about 20%,"self-reported, no plan stated; runs 5 to 6 hours down to 20 to 40 minutes"
+s7,runaway run on Max 20x,agents started,,221,"51 minutes; 189 started after the first session-limit error; 47,465,299 tokens including cache"
+s21,ultracode reported on without the user enabling it,agents started,,"56 and 104","1,472,855 and 1,752,360 tokens; 92 of 160 agents failed with the session limit"
+s20,multi-agent research system,tokens vs a chat,about 4x for an agent,about 15x for multi-agent,Anthropic's own data
+s3,same spec on a $200 plan,hidden checks passed,136/136,136/136,"both runs perfect"
+s3,same spec on a $200 plan,time and 5-hour limit used,"25 min, 8%","76 min (cut off), 18%","12 agents in two teams (9 and 3)"
+s4,Opus plan script,tokens,115k,972k,"Pro plan; /usage 4 vs 12 points; 173 s vs 178 s"
+s4,compact script,tokens,52k,936k,"Pro plan; /usage 7 vs 12 points"
+s4,Claude.md script,tokens,102k,683k,"Pro plan; /usage 4 vs 8 points"
+s4,four independent research jobs,time and tokens,"102 s, about 33k","about 64 s, 76k","parallel 1.6x faster for 2.3x tokens"
+s11,Cybercity,time and API cost,"1 h 13 m, about $18 (1 agent)","9 h 14 m, about $554 (40 subagents)","xhigh vs max with ultracode; one run each; API list prices"
