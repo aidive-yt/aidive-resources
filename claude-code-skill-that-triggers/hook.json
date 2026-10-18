@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'If the user asks about release notes, a changelog or what shipped this week, use the release-notes skill.'"
+          }
+        ]
+      }
+    ]
+  }
+}

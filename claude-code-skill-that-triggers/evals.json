@@ -1,0 +1,22 @@
+[
+  {"query": "what did we ship this week?", "should_trigger": true},
+  {"query": "can you put together the release notes for this week", "should_trigger": true},
+  {"query": "what changed in the repo since monday", "should_trigger": true},
+  {"query": "write the changelog for the commits we merged this week", "should_trigger": true},
+  {"query": "I need a summary of this week's commits for the team update on friday", "should_trigger": true},
+  {"query": "draft the weekly notes of what got fixed, grouped by area", "should_trigger": true},
+  {"query": "list what landed this week, router and css changes apart", "should_trigger": true},
+  {"query": "give me something to post in the team channel about this week's fixes", "should_trigger": true},
+  {"query": "recap the work merged since last monday", "should_trigger": true},
+  {"query": "what's new in hono this week? short version for the release post", "should_trigger": true},
+  {"query": "explain what commit 08807ce1 changes in the trie router", "should_trigger": false},
+  {"query": "the jsx tests are failing on cloneElement, can you fix them", "should_trigger": false},
+  {"query": "write a commit message for my staged changes", "should_trigger": false},
+  {"query": "who wrote most of the serve-static code?", "should_trigger": false},
+  {"query": "add a CHANGELOG entry format section to CONTRIBUTING.md", "should_trigger": false},
+  {"query": "show me the diff between main and my branch", "should_trigger": false},
+  {"query": "bump the version in package.json to the next patch", "should_trigger": false},
+  {"query": "why does the css helper minify url() like that?", "should_trigger": false},
+  {"query": "squash my last three commits into one", "should_trigger": false},
+  {"query": "review this PR for breaking changes before I merge it", "should_trigger": false}
+]
