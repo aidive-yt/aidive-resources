@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "deny": [
+      "Edit(tsconfig.json)",
+      "Edit(vitest.config.ts)",
+      "Edit(eslint.config.js)",
+      "Edit(.claude/**)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      { "matcher": "Write", "hooks": [ { "type": "command", "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/new-file-ask.sh\"", "timeout": 10 } ] }
+    ],
+    "PostToolUse": [
+      { "matcher": "Edit|Write", "hooks": [ { "type": "command", "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/no-clone.sh\"", "timeout": 60 } ] },
+      { "matcher": "Edit|Write", "hooks": [ { "type": "command", "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/lint-edit.sh\"", "timeout": 60 } ] }
+    ],
+    "Stop": [
+      { "hooks": [ { "type": "command", "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/done-check.sh\"", "timeout": 120 } ] }
+    ]
+  }
+}
